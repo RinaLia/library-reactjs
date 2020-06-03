@@ -1,0 +1,572 @@
+html, body, #root{
+  height: 100%;
+}
+
+.login{
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+   
+}
+
+.login .cover{
+  flex: 1;
+  background-image: url(mollie-sivaram-_1gBVgy8gIU-unsplash.png);
+  background-size: contain;
+  /* background-color: hotpink; */
+}
+
+.login .cover .text{
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  justify-content: space-between;
+}
+
+.login .cover .text .quote{
+  padding: 50px;
+  font-size: 40px;
+  color: white;
+  font-weight: bold;
+}
+
+.login .cover .text .watermark{
+  padding: 25px;
+  padding-left: 50px;
+  font-weight: bold;
+  color: white;
+  justify-content: space-between;
+  /* margin-top: 400px; */
+}
+
+.login .form{
+  width: 450px;
+}
+
+.login .form{
+  display: flex;
+  flex-direction: column;
+}
+
+.login .form .brand{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.login .form .brand .logo{
+  padding: 10px;
+}
+
+.login .form .form-login{
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-right: 100px;
+}
+
+.login .form .form-login .greetings .title{
+  font-weight: bold;
+  font-size: 30px;
+}
+
+.login .form .form-login .greetings .subtitle{
+  margin-bottom: 30px;
+}
+
+
+
+.login .form .form-login .input .email, .login .form .form-login .input .password{
+  display: block;
+  box-shadow: 1px 1px 3px #000;
+  padding: 10px;
+}
+
+.login .form .form-login .input .email input, .login .form .form-login .input .password input{
+  border: 0;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 18px;
+}
+
+.login .form .form-login .input .email input:focus, .login .form .form-login .input .password input:focus{
+  outline: none;
+}
+
+.login .form .form-login .option{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.login .form .form-login .option .forgot a{
+  color: black;
+  padding-left: 15px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.login .form .form-login .option .remember{
+  color: #555;
+}
+
+.login .form .form-login .submit{
+  display: flex;
+  flex-direction: row;
+  margin-top: 30px;
+  justify-content: space-between;
+}
+
+.login .form .form-login .submit .login, .login .form .form-login .submit .signup{
+  /* display: flex; */
+  background-color: black;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 30px;
+  color: #fff;
+  border: 1;
+  border-radius: 5px;
+}
+
+.login .form .form-login .submit .signup a{
+  background-color: #fff;
+  color: #000;
+  margin-left: 10px;
+}
+
+.login .form .tnc{
+  display: flex;
+  flex-direction: column;
+  padding-left: 27px;
+}
+
+.register{
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+.register .cover{
+  flex: 1;
+  background-image: url(mollie-sivaram-_1gBVgy8gIU-unsplash.png);
+  background-size: contain;
+  /* background-color: hotpink; */
+}
+
+.register .cover .text{
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  justify-content: space-between;
+}
+
+.register .cover .text .quote{
+  padding: 50px;
+  font-size: 40px;
+  color: white;
+  font-weight: bold;
+}
+
+.register .cover .text .watermark{
+  padding: 25px;
+  padding-left: 50px;
+  font-weight: bold;
+  color: white;
+  justify-content: space-between;
+  /* margin-top: 400px; */
+}
+
+.register .form{
+  width: 450px;
+}
+
+.register .form{
+  display: flex;
+  flex-direction: column;
+}
+
+.register .form .brand{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.regsiter .form .brand .logo{
+  padding: 10px;
+}
+
+.register .form .form-register{
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-right: 170px;
+}
+
+.register .form .form-register .greetings .title{
+  font-weight: bold;
+  font-size: 30px;
+}
+
+.register .form .form-register .greetings .subtitle{
+  margin-bottom: 30px;
+}
+
+.register .form .form-register .input .username{
+  display: block;
+  box-shadow: 1px 1px 3px #000;
+  padding: 10px;
+}
+
+.register .form .form-register .input .fullname{
+  display: block;
+  box-shadow: 1px 1px 3px #000;
+  padding: 10px;
+}
+
+.register .form .form-register .input .email{
+  display: block;
+  box-shadow: 1px 1px 3px #000;
+  padding: 10px;
+}
+
+.register .form .form-register .input .password{
+  display: block;
+  box-shadow: 1px 1px 3px #000;
+  padding: 10px;
+}
+
+.register .form .form-register .input .username input, .register .form .form-register .input .fullname input{
+  border: 0;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 18px;
+}
+
+.register .form .form-register .input .email input, .register .form .form-register .input .password input{
+  border: 0;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 18px;
+}
+
+.register .form .form-register .input .username input:focus, .register .form .form-register .input .fullname input:focus {
+  outline: none;
+}
+
+.register .form .form-register .input .email input:focus, .regsiter .form .form-register .input .password input:focus{
+  outline: none;
+}
+
+.register .form .form-register .submit{
+  display: flex;
+  flex-direction: row;
+  margin-top: 30px;
+  justify-content: space-between;
+}
+
+.register .form .form-register .submit .login, .register .form .form-register .submit .signup{
+  /* display: flex; */
+  background-color: rgb(255, 255, 255);
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 30px;
+  color: black;
+  border: 1;
+  border-radius: 5px;
+}
+
+.register .form .form-register .submit .signup{
+  background-color: black;
+  color: rgb(255, 255, 255);
+  margin-left: 10px;
+}
+
+.register .form .tnc{
+  display: flex;
+  flex-direction: column;
+  padding-left: 40px;
+}
+
+.detail {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  height: 100%;
+}
+
+.detail .detail-header {
+  flex: 2;
+  background-color: teal;
+  display: flex;
+  justify-content: space-between;
+  background-image: url('../assets/cover.png');
+  background-size: cover;
+}
+
+.detail .detail-header .back {
+  margin-top: 45px;
+  margin-left: 15px;
+}
+
+.detail .detail-header .back a {
+  background-color: white;
+  padding: 15px;
+  border-radius: 50px;
+  text-decoration: none;
+  color: black;
+}
+
+.detail .detail-header .action {
+  flex-direction: row;
+  margin-top: 15px;
+  margin-right: 90px;
+  /* margin-left: 50px; */
+  font-weight: bold;
+}
+
+.detail .detail-header .action a {
+ margin-right: 10px;
+ margin-bottom: 50px;
+ text-decoration: none;
+ color:blueviolet;
+ font-weight: bold;
+ font-size: 20px;
+}
+
+.detail .detail-content {
+  flex: 3;
+
+  display: flex;
+  flex-direction: row;
+}
+
+.detail .detail-content .left {
+  flex: 4;
+  flex-direction: row;
+  margin-left: 40px;
+}
+
+.detail .detail-content .left .badge {
+  margin-top: 20px;
+  background-color: #FBCC38;
+  color: white;
+  border-radius: 15px;
+  width: 70px;
+  height: 25px;
+  padding-top: 5px;
+  padding-left: 25px;
+  margin-bottom: -20px;
+}
+
+.detail .detail-content .left .info {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: space-between;
+  margin-top: -20px;
+}
+
+.detail .detail-content .left .info .title h2 {
+  font-size: 40px;
+}
+
+.detail .detail-content .left .info .status span {
+  color: lawngreen;
+}
+
+.detail .detail-content .left .release {
+  margin-top: -30px;
+}
+
+.detail .detail-content .left .description {
+  margin-top: 40px;
+}
+
+.detail .detail-content .right {
+  flex: 2;
+  flex-direction: column;
+  align-items: flex-end;
+  display: flex;
+  justify-content: space-between;
+  margin-right: 50px;
+}
+
+.detail .detail-content .right .cover img {
+  margin-top: -200px;
+ 
+}
+
+.detail .detail-content .right .borrow {
+margin-bottom: 100px;
+}
+
+.detail .detail-content .right .borrow a {
+  background-color: #FBCC38;
+  color: white;
+  font-weight: bold;
+  padding: 20px;
+  border-radius: 10px;
+  border: 0;
+  font-size: 20px;
+  text-align: center;
+  text-decoration: none;
+}
+
+/*dashboard*/
+
+.dashboard {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  height: 100%;
+}
+
+.dashboard .sidebar {
+  width: 250px;
+  background-color: white;
+  box-shadow: 2px 5px 5px rgba(0,0,0,0.5);
+  height: 100%;
+  position: fixed;
+  z-index: 2;
+}
+
+.dashboard .sidebar .profile {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.dashboard .sidebar .profile .profile-img {
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 20px;    
+}
+
+.dashboard .sidebar .profile .profile-name {
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 20px;
+      
+}
+
+.dashboard .sidebar .menu {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  margin-top: 10px;
+}
+
+.dashboard .sidebar .menu .item {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  padding-left: 40px;
+  padding-right: 20px;
+  font-size: 18px;
+}
+
+.dashboard .content {
+  width: 100%;
+  margin-left: 250px;
+}
+
+.dashboard .content .navbar {
+  background-color: white;
+  box-shadow: 2px 5px 5px rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 80px;
+  width: calc(100% - 250px);
+  position: fixed;
+  z-index: 1;
+}
+
+.dashboard .content .navbar .navbar-item {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  padding-left: 40px;
+}
+
+.dashboard .content .navbar .navbar-item li {
+  display: inline-block;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-weight: bold;
+}
+
+.dashboard .content .navbar .search-wraper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+
+}
+
+.dashboard .content .navbar .search-wraper .input-search {
+  width: 60%;
+  height: 30px;
+  border-radius: 40px;
+  border: 1px solid grey;
+  padding-left: 20px;
+  padding-right: 20px;
+
+}
+
+.dashboard .content .navbar .search-wraper .input-search:focus {
+  outline: none;
+}
+
+.dashboard .content .navbar .brand {
+  padding-right: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.dashboard .content .navbar .brand .text {
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.dashboard .content .container {
+  padding: 30px;
+  margin-top: 80px;
+}
+
+.dashboard .content .container .list-book {
+  display: flex;
+}
+
+.dashboard .content .container .list-book .card {
+  box-shadow: 2px 5px 5px rgba(0,0,0,0.5);
+  margin: 20px;
+  border-radius: 10px;
+}
+
+.dashboard .content .container .list-book .card .card-img {
+ background-color: grey;
+ height: 150px;
+ border-top-left-radius: 10px;
+ border-top-right-radius: 10px;
+}
+
+.dashboard .content .container .list-book .card .card-text {
+  padding: 15px
+}
+
+.dashboard .content .container .list-book .card .card-text .title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 10px;
+  margin-bottom: 10px;
+}
