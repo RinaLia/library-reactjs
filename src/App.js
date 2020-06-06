@@ -6,6 +6,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Detail from './pages/Detail'
 import Dashboard from './pages/Dashboard'
+import ListData from './pages/ListData'
 
 function App() {
   return (
@@ -14,9 +15,10 @@ function App() {
       <BrowserRouter>
         <Switch>
           <Route path="/" exact component={Login}/>
-          <Route path="/register" exact component={Register}/>
-          <Route path="/detail" exact component={Detail}/>
-          <Route path="/dashboard" exact component={Dashboard}/>
+          <Route path="/register" component={Register}/>
+          <Route path="/detail" component={Detail}/>
+          <Route path="/dashboard" component={Dashboard}/>
+          <Route path="/list-data" component={ListData}/>
         </Switch>
       </BrowserRouter>
 

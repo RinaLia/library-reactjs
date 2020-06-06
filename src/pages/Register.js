@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import logo from '../assets/bookshelf.png'
+import {Row, Col, Form, FormGroup, Input, Label, Button} from 'reactstrap'
 
 class Register extends Component {
   // constructor(props){
@@ -25,66 +27,61 @@ signup = (e)=>{
 render() {
   return (
     <>
-    <div className="register">
-        <div className="cover">
-          <div className="text">
-            <div className="quote">
-                Book is a Window <br/> to the World
-              </div>
-            <div className="watermark">
-            Photo by Mark Pan4ratte on Unsplash
+     <Row className='h-100 no-gutters'>
+          <Col md={8} className='register-cover'>
+            <div className='d-flex flex-column justify-content-between login-overlay w-100 h-100'>
+              <h1 className='text-white'>Book is a window to the world</h1>
+              <div className='text-white'>Photo by Mark Pan4ratte on Unsplash</div>
             </div>
-          </div>
-        </div>
-        <div className="form">
-    <div className="brand">
-      <div className="logo">
-        <img src={require("../assets/bookshelf.png")} alt="logo"/>
-      </div>
-    </div>
-    <div className="form-register">
-      <div className="greetings">
-        <div className="title">Register</div>
-        <div className="subtitle">Welcome back, <br/> Please Login to Your Account</div>
-        <form className="input">
-          <label className="username">
-            <div>User Name</div>
-            <input type="username" />
-          </label>
-          <label className="fullname">
-            <div>Full Name</div>
-            <input type="fullname" />
-          </label>
-          <label className="email">
-            <div>Email Address</div>
-            <input type="email" />
-          </label>
-          <label className="password">
-            <div>Password</div>
-            <input type="password" />
-          </label>
-          <div className="submit">
-            <button type="submit" class="signup">SignUp</button>
-            <button type="submit" class="login">Login</button>
-          </div>
-        </form>
-      </div>
-    </div>
-    <div className="tnc">
-      <div className="agreement">By signing up, you agree to Book’s</div>
-      <div className="link">
-        <a href="#tnc">Terms and Conditions</a>
-        <a>&</a>
-        <a href="#p">Privacy Policy</a>
-      </div>
-    </div>
-  </div>
-          
-        
-
-    </div>
+          </Col>
+          <Col md={4}>
+            <div className='d-flex flex-column w-100 h-100'>
+              <div className='d-flex justify-content-end'>
+                <img className='p-3' src={logo} alt='Logo' />
+              </div>
+              <div className='flex-grow-1 d-flex justify-content-center align-items-center'>
+                <Form>
+                  <h1>Register</h1>
+                  <p>Welcome Back, Please Login to your account</p>
+                  <FormGroup>
+                    <Label className='w-100'>
+                      <div>Username</div>
+                      <Input type='username' bsSize='sm'  />
+                    </Label>
+                  </FormGroup>
+                  <FormGroup>
+                    <Label className='w-100'>
+                      <div>Full Name</div>
+                      <Input type='fullname' bsSize='sm'  />
+                    </Label>
+                  </FormGroup>
+                  <FormGroup>
+                    <Label className='w-100'>
+                      <div>Email</div>
+                      <Input type='email' bsSize='sm' />
+                    </Label>
+                  </FormGroup>
+                  <FormGroup>
+                    <Label className='w-100'>
+                      <div>Password</div>
+                      <Input type='password' bsSize='sm' />
+                    </Label>
+                  </FormGroup>
+                  <div className='mt-100'>
+                    <Button color='primary'>Sign Up</Button>
+                    <Button color='secondary' className='ml-2'>Login</Button>
+                  </div>
+                </Form>
+              </div>
+              <div className='d-flex flex-column justify-content-center align-item-center pr-5'>
+                <div className='px-5'>By signing up, you agree to Book’s</div>
+                <div className='px-5'>Terms and Conditions &amp; Privacy Policy</div>
+              </div>
+            </div>
+          </Col>
+        </Row>
    
-  
+        
     </>
   )
     }

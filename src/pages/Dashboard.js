@@ -1,107 +1,96 @@
 import React, {Component} from 'react';
+// import FormControl from 'react-bootsrap/FormControl'
+import {Row, Col, Navbar, NavbarBrand, 
+  Form, FormGroup, Label, Input, Container,
+  Card, CardText, CardBody, CardTitle, 
+  CardSubtitle, CardImg} from 'reactstrap'
+import profile from '../assets/profil.png'
+import logo from '../assets/bookshelf.png'
+
+
 
 class Dashboard extends Component{
   render(){
     return(
       <>
-       <div className="dashboard">
-                        <div className="sidebar">
-                            <div className="profile">
-                                <div className="profile-img">
-                                    <img src={require("../assets/profil.png")} className="profile-img" alt="profile-picture"/>
-                                </div>
-                                <div className="profile-name">Nikki Zefaya</div>
-                            </div>
-                            <ul className="menu">
-                                <li className="item">Explore</li>
-                                <li className="item">History</li>
-                                <li className="item">Add Book</li>
-                            </ul>
-                       </div>
-                       <div className="content">
-                            <div className="navbar">
-                                <ul className="navbar-item">
-                                    <li>All Category</li>
-                                    <li>All Time</li>
-                                </ul>
-                                <div className="search-wraper">
-                                    <input className="input-search" placeholder="search book"/>
-                                </div>
-                                <div className="brand">
-                                <img className="icon" src={require("../assets/bookshelf.png")} alt="logo"/>
-                                <div className="text">Library</div>
-                            </div>
-                            </div>
+          <Row className='h-100 no-gutters'>
+            <Col md={3} className='sidebar shadow p-3 mb-5'>
+              <div className='d-flex flex-column justify-content-beetween pt-5 mr-5 ml-5 mb-5 pl-5'>
+                <img className='img-fluid' src={profile} alt="profile"/>
+                  <div className='text-center mt-3 mb-5 font-weight-bold'>Nikki Zefaya</div>
+                  <Navbar className='d-flex flex-column justify-content-beetwen mt-4 font-weight-bold' light expand='md'>
+                      <NavbarBrand href='/dashboard'>Explore</NavbarBrand>
+                      <NavbarBrand href='/dashboard'>History</NavbarBrand>
+                      <NavbarBrand href='/dashboard'>Add Book</NavbarBrand>
+                  </Navbar>
 
-                            <div className="container">
-                                <h3>List Book</h3>
-                                <div className="list-book">
-                                    <div className="card">
-                                        <div className="card-img"></div>
-                                        <div className="card-text">
-                                            <div className="title">
-                                                <div className="desc">
-                                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla quia tempore asperiores eligendi provident veniam autem sint soluta dolor fugiat nam minus repudiandae, architecto rem quae eum eius illo voluptatibus!
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="card">
-                                        <div className="card-img"></div>
-                                        <div className="card-text">
-                                            <div className="title">
-                                                <div className="desc">
-                                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla quia tempore asperiores eligendi provident veniam autem sint soluta dolor fugiat nam minus repudiandae, architecto rem quae eum eius illo voluptatibus!
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="card">
-                                        <div className="card-img"></div>
-                                        <div className="card-text">
-                                            <div className="title">
-                                                <div className="desc">
-                                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla quia tempore asperiores eligendi provident veniam autem sint soluta dolor fugiat nam minus repudiandae, architecto rem quae eum eius illo voluptatibus!
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="list-book">
-                                    <div className="card">
-                                        <div className="card-img"></div>
-                                        <div className="card-text">
-                                            <div className="title">
-                                                <div className="desc">
-                                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla quia tempore asperiores eligendi provident veniam autem sint soluta dolor fugiat nam minus repudiandae, architecto rem quae eum eius illo voluptatibus!
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="card">
-                                        <div className="card-img"></div>
-                                        <div className="card-text">
-                                            <div className="title">
-                                                <div className="desc">
-                                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla quia tempore asperiores eligendi provident veniam autem sint soluta dolor fugiat nam minus repudiandae, architecto rem quae eum eius illo voluptatibus!
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="card">
-                                        <div className="card-img"></div>
-                                        <div className="card-text">
-                                            <div className="title">
-                                                <div className="desc">
-                                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla quia tempore asperiores eligendi provident veniam autem sint soluta dolor fugiat nam minus repudiandae, architecto rem quae eum eius illo voluptatibus!
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                </div>    
-                       </div>
-                       </div>
+              </div>
+            </Col>
+          <Col md={9}>
+              <Container>
+              <div className="navbar shadow p-3 mb-5 bg-white rounded ml-3">
+              <Navbar className="w-100" color="light" light expand="md">
+                <NavbarBrand href="/home">All Category</NavbarBrand>
+                <NavbarBrand href="/home" className="ml-3">All Time</NavbarBrand>
+                <FormGroup>
+                  <Label className="w-100 mt-4 ml-5">
+                    <Input className="ml-5 w-100" type="search" placeholder="search book"></Input>
+                  </Label>
+                </FormGroup>
+                <div className="d-flex w-100 justify-content-end pl-5">
+                  <img className="pl-5" src={logo} alt="logo" />
+                  <h3 className="mt-4 ">Library</h3>
+                </div>
+              </Navbar>
+            </div>
+              </Container>
+              <Container>
+                <div className='text pl-4 font-weight-bold'>List Book</div>
+                <Row md={1} className='pl-4'>
+                <Col md={3}>
+                  <Card>
+                    <CardImg top width="100%" src="/assets/318x180.svg" alt="Card image cap" />
+                      <CardBody>
+                        <CardTitle>Card title</CardTitle>
+                          <CardSubtitle>Card subtitle</CardSubtitle>
+                            <CardText>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
+                      </CardBody>
+                    </Card>
+                  </Col>
+                <Col md={3}>
+                  <Card>
+                    <CardImg top width="100%" src="/assets/318x180.svg" alt="Card image cap" />
+                      <CardBody>
+                        <CardTitle>Card title</CardTitle>
+                          <CardSubtitle>Card subtitle</CardSubtitle>
+                            <CardText>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
+                      </CardBody>
+                    </Card>
+                </Col>
+                <Col md={3}>
+                  <Card>
+                    <CardImg top width="100%" src="/assets/318x180.svg" alt="Card image cap" />
+                      <CardBody>
+                        <CardTitle>Card title</CardTitle>
+                          <CardSubtitle>Card subtitle</CardSubtitle>
+                            <CardText>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
+                      </CardBody>
+                    </Card>
+                
+                </Col>
+                </Row>
+                
+                
+                
+                
+                    
+                   
+                  
+                
+                </Container>      
+          </Col>
+         </Row>
+        
       </>
     )
   }
