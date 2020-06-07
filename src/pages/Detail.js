@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Row, Col, Button } from 'reactstrap'
+import { Row, Col, Button, Modal, ModalHeader,
+ModalBody,ModalFooter, FormGroup, Label, Input } from 'reactstrap'
 import {
   BrowserRouter as Router,
   Link
@@ -8,6 +9,15 @@ import full from '../assets/dilan-full.png'
 
 
 class Detail extends Component{
+  state={
+    visible: true,
+    modalIsOpen: false
+  }
+  toggleModal(){
+    this.setState({
+      modalIsOpen:!this.state.modalIsOpen
+    })
+  }
   render(){
     return(
       <>
@@ -21,10 +31,38 @@ class Detail extends Component{
                   </div>
                     <div className='option-btn'>
                       <Link>
-                        <Button className='text'>EDIT</Button>
+                        <Button className='text' color='primary' onClick={this.toggleModal.bind(this)}>EDIT</Button>
+                        <Modal isOpen={this.state.modalIsOpen}>
+                          <ModalHeader toggle={this.toggleModal.bind(this)}>Edit Book</ModalHeader>
+                          <ModalBody>
+                            <FormGroup>
+                              <Label className='w-100'>
+                                <div className='pl-2'>Title</div>
+                                <Input type='title' placeholder='title'/>    
+                              </Label>
+                            </FormGroup>
+                            <FormGroup>
+                              <Label className='w-100'>
+                                <div className='pl-2'>Descriptions</div>
+                                <Input type='description' placeholder='description'/>    
+                              </Label>
+                            </FormGroup>
+                          </ModalBody>
+                          <ModalFooter>
+                            <Button color='primary'>Sumit</Button>
+                            <Button color='secondary' onClick={this.toggleModal.bind(this)}>Cancel</Button>
+                          </ModalFooter>
+                        </Modal>
                       </Link>
                       <Link>
-                        <Button className='text ml-2'>DELETE</Button>
+                        <Button className='text ml-2' onClick={this.toggleModal.bind(this)} >DELETE</Button>
+                        {/* <Modal isOpen={this.state.modalIsOpen}>
+                          <ModalHeader toggle={this.toggleModal.bind(this)}>Delete book</ModalHeader>
+                          <ModalFooter>
+                            <Button color='primary'>Yes</Button>
+                            <Button color='secondary' onClick={this.toggleModal.bind(this)}>No</Button>
+                          </ModalFooter>
+                        </Modal> */}
                       </Link>
                     </div>
                 </div>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import logo from '../assets/bookshelf.png'
 import {Row, Col, Form, FormGroup, Input, Label, Button} from 'reactstrap'
+import { Link } from 'react-router-dom'
 
 class Login extends Component {
   constructor(props){
@@ -69,8 +70,12 @@ class Login extends Component {
                     <div>Forgot Password</div>
                   </div>
                   <div className='mt-2'>
-                    <Button>Login</Button>
-                    <Button className='ml-2'>Sign Up</Button>
+                    <Link to={'/dashboard'}>
+                      <Button>Login</Button>
+                    </Link>
+                    <Link to={'/register'}>
+                      <Button className='ml-2'>Sign Up</Button>
+                    </Link>
                   </div>
                 </Form>
               </div>
