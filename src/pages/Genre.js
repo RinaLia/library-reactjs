@@ -4,7 +4,7 @@ import {
   Row, Col, Navbar, NavbarBrand,
   Form, FormGroup, Label, Input, Container,
   Card, CardText, CardBody, CardTitle, Modal, ModalHeader,
-  ModalBody,ModalFooter, Button, Nav, FormText
+  ModalBody,ModalFooter, Button, Nav
 } from 'reactstrap'
 import axios from 'axios'
 import {
@@ -16,25 +16,11 @@ import qs from 'querystring'
 import profile from '../assets/profil.png'
 import logo from '../assets/bookshelf.png'
 
-class Dashboard extends Component {
+class Genre extends Component {
   state={
     visible: true,
     modalAddBook:false,
   }
-
-  handlerChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value })
-  }
-
-  handlerSubmit = async (event) => {
-    event.preventDefault()
-
-    const data = new FormData(event.target)
-    data.set('image', data.get('image').toUpperCase())
-
-    await axios.post('http://localhost:5000/books')
-  }
- 
 
   toggleAddBook=()=>{
     this.setState({
@@ -46,46 +32,15 @@ class Dashboard extends Component {
     super(props)
     this.state = {
       data: [],
-      pageInfo:[],
-      isLoading:false
     }
    
   }
-  fetchData = async(params)=>{
-    this.setState({isLoading:true})
-    const {REACT_APP_URL}=process.env
-    const param = `${qs.stringify(params)}`
-    const url = `${REACT_APP_URL}books?${param}`
-    const results = await axios.get(url)
-    const {data} = results.data  
-    console.log(data);
-    console.log(REACT_APP_URL);
-    
-    
-    const pageInfo = results.data.pageInfo
-    console.log(pageInfo);
-    
-    this.setState({ data, pageInfo, isLoading: false })
-    if (params) {
-      this.props.history.push(`?${param}`)
-    }
 
-  
-  }
-  
-  
 
   async componentDidMount() {
-    // const results = await axios.get('http://localhost:5000/books')
-    // const { data } = results.data
-    // this.setState({ data })
-    // if(params){pageInfo, isLoading: false 
-    //   this.props.history.push(`?${param}`)
-
-    // }
-    // console.log(data);
-    const param = qs.parse(this.props.location.search.slice(1))
-    await this.fetchData(param)
+    const results = await axios.get('http://localhost:5000/books')
+    const { data } = results.data
+    this.setState({ data })
 
   }
   render() {
@@ -95,11 +50,6 @@ class Dashboard extends Component {
       <>
         <Row className='h-100 no-gutters'>
           <Col md={3} className='p-3 mb-2 bg-info'>
-            {/* {this.state.isLoading && 
-               <div className='d-flex justify-content-center align-items-center'>
-               Loading...
-             </div> */}
-            
             <div className='d-flex flex-column justify-content-beetween pt-5 mr-5 ml-5 mb-5 pl-5'>
               <img className='img-fluid' src={profile} alt="profile" />
               <div className='text-center mt-3 mb-5 font-weight-bold'>Nikki Zefaya</div>
@@ -111,14 +61,6 @@ class Dashboard extends Component {
                   <Modal isOpen={this.state.modalAddBook}>
                     <ModalHeader toggle={this.toggleAddBook.bind(this)}>Add Book</ModalHeader>
                     <ModalBody>
-                      <FormGroup>
-                        <Label for='example'>File</Label>
-                        <Input type='file' name='image' onChange={this.handlerChange}/>
-                        <FormText color='muted'>
-                        This is some placeholder block-level help text for the above input.
-                      It's a bit lighter and easily wraps to a new line.
-                        </FormText>
-                      </FormGroup>
                       <FormGroup>
                         <Label className='w-100'>
                           <div className='pl-2'>title</div>
@@ -133,7 +75,7 @@ class Dashboard extends Component {
                       </FormGroup>
                     </ModalBody>
                     <ModalFooter>
-                      <Button type='text' name='image' color='primary' onSubmit={this.handlerSubmit}>Submit</Button>
+                      <Button color='primary'>Submit</Button>
                       <Button color='secondary' onClick={this.toggleAddBook.bind(this)}>Cancel</Button>
                     </ModalFooter>
                   </Modal>
@@ -163,21 +105,11 @@ class Dashboard extends Component {
               </div>
               </Nav>
             </Container>
-            <Row>
-              <Col md={12}>
-                {this.state.isLoading &&
-                  <div className='d-flex justify-content-center align-items-center'>
-                    Loading...
-                  </div>
-                }
-                {!this.state.isLoading && (
-                 
-
             <div className='container'>
               <Row className='w-100 list-book'>
                 <Col className='list-book-content'>
-                  <h4 className='pl-3'>List books</h4>
-                  <Row xs='3' className='w-100 mb-5 card-deck'>
+                  <h4 className='pl-3'>List Genres</h4>
+                  <Row>
                     {this.state.data.map((lis_book, index) => (
                       <Col md={3}>
                         <Card>
@@ -193,45 +125,14 @@ class Dashboard extends Component {
 
                           </CardBody>
                         </Card>
-                        {/* <div className='card-deck p-2 mt-4 col-md-35'>
-                            <img className='card-img-top' src={books.image} alt="Card image cap"/>
-                            <div className='card-body'>
-                              <h5 className='card-title'>
-                                <Link to={'/detail'}>
-                                  <a className='text'>{books.title}</a>
-                                </Link>
-                              </h5>
-                              <p className='card-text'>{books.description}</p>
-                            </div>
-                          </div> */}
                       </Col>
                     ))}
                   </Row>
                 </Col>
               </Row>
             </div>
-            )}
-            <Row className='mt-5 mb-5'>
-                  <Col md={12}>
-                    <div className='d-flex flex-row justify-content-between'>
-                      <div>
-                        {<Button className="ml-5" onClick={() => this.fetchData({ ...params, page: parseInt(params.page) - 1 })}>Prev</Button>}
-                      </div>
-                      <div>
-                        {[...Array(this.state.pageInfo.totalPage)].map((o, i) => {
-                          return (
-                            <Button onClick={() => this.fetchData({ ...params, page: params.page ? i + 1 : i + 1 })} className='mr-1 ml-1' key={i.toString()}>{i + 1}</Button>
-                          )
-                        })}
-                      </div>
-                      <div>
-                        <Button className="mr-5" onClick={() => this.fetchData({ ...params, page: parseInt(params.page) + 1 })}>Next</Button>
-                      </div>
-                    </div>
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
+
+
           </Col>
         </Row>
 
@@ -240,4 +141,4 @@ class Dashboard extends Component {
   }
 }
 
-export default Dashboard
+export default Genre

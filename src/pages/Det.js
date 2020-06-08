@@ -8,7 +8,7 @@ import {
 import full from '../assets/dilan-full.png'
 
 
-class Detail extends Component{
+class Det extends Component{
   
   state={
     visible: true,
@@ -113,4 +113,4 @@ class Detail extends Component{
   }
 }
 
-export default Detail
+export default Det
