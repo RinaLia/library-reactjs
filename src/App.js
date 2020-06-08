@@ -43,6 +43,7 @@
 //           <Route path="/author" component={Author}/>
 //           <Route path="/genre" component={Genre}/>
 //           <Route path="/dash" component={Dash}/>
+
 //         </Switch>
 //       </BrowserRouter>
       
@@ -70,6 +71,7 @@ import Detail from './pages/Detail'
 import Dashboard from './pages/Dashboard'
 import ListData from './pages/ListData'
 import Det from './pages/Det'
+import Author from './pages/Author'
 
 function App() {
   return (
@@ -82,7 +84,7 @@ function App() {
           <Route path="/detail" component={Detail}/>
           <Route path="/dashboard" component={Dashboard}/>
           <Route path="/list-data" component={ListData}/>
-          <Route path="/det" component={Det}/>
+          <Route path="/author" component={Author}/>
         </Switch>
       </BrowserRouter>
 
