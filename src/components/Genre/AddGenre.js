@@ -12,7 +12,9 @@ export class AddGenre extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      name: ''
+      name: '',
+      created_at:'',
+      updated_at:''
     }
     this.handlePost = this.handlePost.bind(this)
   }
@@ -27,7 +29,9 @@ export class AddGenre extends Component {
     event.preventDefault()
     this.setState({ isLoading: true })
     const genreData = {
-      name: this.state.name
+      name: this.state.name,
+      created_at: this.state.created_at,
+      updated_at: this.state.updated_at
     }
     console.log(this.state)
     const url = `${REACT_APP_URL}books/genres`
@@ -75,6 +79,14 @@ export class AddGenre extends Component {
                 <Form.Text className="text-muted">
                   Please text mode
                     </Form.Text>
+              </Form.Group>
+              <Form.Group controlId="formBasicEmail">
+                <Form.Label>Created-at</Form.Label>
+                <Form.Control name="created_at" onChange={this.handleChange} type="date" placeholder="Created-at" />
+              </Form.Group>
+              <Form.Group controlId="formBasicEmail">
+                <Form.Label>Updated-at</Form.Label>
+                <Form.Control name="updated_at" onChange={this.handleChange} type="date" placeholder="Updated-at" />
               </Form.Group>
               <Button variant="primary" type="submit">
                 Save

@@ -7,9 +7,9 @@ import qs from 'querystring'
 
 import SweetAlert from 'react-bootstrap-sweetalert'
 
-// import { AddAuthor } from '../components/AddAuthor'
-// import { EditAuthor } from '../components/EditAuthors';
+
 import { AddGenre } from '../components/Genre/AddGenre';
+import { EditGenre } from '../components/Genre/EditGenre';
 
 class Genre extends Component {
 
@@ -106,7 +106,7 @@ class Genre extends Component {
   render() {
     const params = qs.parse(this.props.location.search.slice(1))
     params.page = params.page || 1
-    const {genreid,genrename}= this.state
+    const {genreid,genrename, genrecreated_at, genreupdated_at}= this.state
     let addModalClose = () => this.setState({ addModalShow: false })
     let editModalClose= () => this.setState({editModalShow:false})
 
@@ -131,14 +131,16 @@ class Genre extends Component {
                       refreshData={()=>this.fetchData()}
                     />
 
-                      {/* <EditAuthor
+                      <EditGenre
                         show={this.state.editModalShow}
                         onHide={editModalClose}
                         refreshData={()=>this.fetchData()}
-                        authorid={authorid}
-                        authorname={authorname}
-                        authordescription={authordescription}
-                        /> */}
+                        genreid={genreid}
+                        genrename={genrename}
+                        genrecreated_at={genrecreated_at}
+                        genreupdated_at={genreupdated_at}
+                        
+                        />
 
 
                     <Table bordered>
@@ -146,6 +148,8 @@ class Genre extends Component {
                         <tr>
                           <th>No</th>
                           <th>Genre</th>
+                          <th>Created_at</th>
+                          <th>Updated_at</th>
                           <th>Action</th>
                         </tr>
                       </thead>
@@ -155,11 +159,15 @@ class Genre extends Component {
                             <tr key={genre.id.toString()} >
                               <td>{index + 1}</td>
                               <td>{genre.name}</td>
+                              <td>{genre.created_at}</td>
+                              <td>{genre.updated_at}</td>
+
                               <td align="center">
-                                {/* <button onClick={()=>{this.setState({editModalShow:true,
-                                                                     authorid: author.id,
-                                                                     authorname:author.name,
-                                                                     authordescription: author.description})}} className = 'btn btn-warning ml-2'>Edit</button> */}
+                                <button onClick={()=>{this.setState({editModalShow:true,
+                                                                     genreid: genre.id,
+                                                                     genrename:genre.name,
+                                                                     genrecreated_at: genre.created_at,
+                                                                     genreupdated_at: genre.updated_at})}} className = 'btn btn-warning ml-2'>Edit</button>
                                 <button onClick={() => { this.onDelete(genre.id) }} className="btn btn-danger ml-2">Delete</button>
                                 {/*   <button onClick={() =>  { if (window.confirm('Are you sure you wish to delete this item?')) this.deleteAuthor(author.id)} } className="btn btn-danger ml-2">Delete</button> */}
                               </td>
