@@ -70,14 +70,14 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import DetailsTry from './pages/DetailsTry'
 // import Dashboard from './pages/Dashboard'
-import tes from './pages/tes'
+import User from './pages/User'
 // import Det from './pages/Det'
 // import Author from './pages/Author'
 import Genre from './pages/Genre'
 import Dashboard from './pages/Dashboard'
 import Sidebar from './pages/Sidebar'
 import Author from './pages/Author'
-import Auth from './pages/Auth'
+import Home from './pages/Home'
 
 
 class App extends Component {
@@ -102,16 +102,16 @@ render() {
         <Switch>
           <Route path="/" exact component={Login}/>
           <Route path="/register" component={Register}/>
-          <Route path="/tes" component={tes}/>
+          {/* <Route path="/tes" component={tes}/> */}
           {/* <Route path="/dashboard" component={Dashboard}/> */}
-          <Route path="/tes" component={tes}/>
-          {/* <Route path="/author" component={Author}/> */}
+          {/* <Route path="/tes" component={tes}/> */}
+          <Route path="/user" component={User}/>
           <Route path="/genre" component={Genre}/>
           <Route path="/detailstry/:id" component={DetailsTry}/>
           <Route path="/dashboard" component={Dashboard}/>
           <Route path="/sidebar" component={Sidebar}/>
           <Route path="/author" component={Author}/>
-          <Route path='/auth' component={Auth}/>
+          <Route path='/home' component={Home}/>
         </Switch>
       </BrowserRouter>
 
