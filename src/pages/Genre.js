@@ -1,144 +1,182 @@
 import React, { Component } from 'react';
-// import FormControl from 'react-bootsrap/FormControl'
-import {
-  Row, Col, Navbar, NavbarBrand,
-  Form, FormGroup, Label, Input, Container,
-  Card, CardText, CardBody, CardTitle, Modal, ModalHeader,
-  ModalBody,ModalFooter, Button, Nav
-} from 'reactstrap'
+import TopNavbar from './Navbar'
+import Sidebar from './Sidebar'
+import { Container, Row, Table, Card, Pagination } from 'react-bootstrap';
 import axios from 'axios'
-import {
-  BrowserRouter as Router,
-  Link
-} from 'react-router-dom'
 import qs from 'querystring'
 
-import profile from '../assets/profil.png'
-import logo from '../assets/bookshelf.png'
+import SweetAlert from 'react-bootstrap-sweetalert'
+
+// import { AddAuthor } from '../components/AddAuthor'
+// import { EditAuthor } from '../components/EditAuthors';
+import { AddGenre } from '../components/Genre/AddGenre';
 
 class Genre extends Component {
-  state={
-    visible: true,
-    modalAddBook:false,
-  }
-
-  toggleAddBook=()=>{
-    this.setState({
-      modalAddBook:!this.state.modalAddBook
-    })
-  }
 
   constructor(props) {
     super(props)
     this.state = {
       data: [],
+      pageInfo: [],
+      isLoading: false,
+      addModalShow: false,
+      alert: null
     }
-   
+
   }
 
+  handlerChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value })
+  }
+
+  fetchData = async (params) => {
+    this.setState({ isLoading: true })
+    const { REACT_APP_URL } = process.env
+    const param = `${qs.stringify(params)}`
+    const url = `${REACT_APP_URL}books/genres?${param}`
+    const results = await axios.get(url)
+    const { data } = results.data
+
+    const pageInfo = results.data.pageInfo
+    this.setState({ data, pageInfo, isLoading: false })
+    if (params) {
+      this.props.history.push(`?${param}`)
+    }
+  }
+
+  deleteGenre = async (id) => {
+    const { REACT_APP_URL } = process.env
+    const url = `${REACT_APP_URL}books/genres/${id}`
+    await axios.delete(url)
+    console.log(this.props)
+
+    this.fetchData()
+  }
+
+  // editAuthor = async(id) =>{
+  //   const { REACT_API_URL } = process.env
+  //   const url = `${REACT_API_URL}books/author/${id}`
+  //   await axios.edit(url)
+  //   this.fetchData()
+
+  // }
+
+  showModal = () => {
+    this.setState({ show: true });
+  };
+
+  hideModal = () => {
+    this.setState({ show: false });
+  };
+
+
+  onDelete = (id) => {
+    const getAlert = () => (
+      <SweetAlert
+        warning
+        showCancel
+        confirmBtnText="Yes, delete it!"
+        confirmBtnBsStyle="danger"
+        title="Are you sure?"
+        onConfirm={() => this.deleteGenre(id) && this.hideAlert()}
+        onCancel={() => this.hideAlert()}
+        focusCancelBtn
+      >
+        Delete this id {id}
+      </SweetAlert>
+    );
+
+    this.setState({
+      alert: getAlert()
+    });
+  }
+
+
+  hideAlert() {
+    this.setState({
+      alert: null
+    });
+  }
 
   async componentDidMount() {
-    const results = await axios.get('http://localhost:5000/books')
-    const { data } = results.data
-    this.setState({ data })
-
+    const param = qs.parse(this.props.location.search.slice(1))
+    await this.fetchData(param)
   }
+
   render() {
     const params = qs.parse(this.props.location.search.slice(1))
-    params.page = params.page ||1
+    params.page = params.page || 1
+    const {genreid,genrename}= this.state
+    let addModalClose = () => this.setState({ addModalShow: false })
+    let editModalClose= () => this.setState({editModalShow:false})
+
     return (
       <>
-        <Row className='h-100 no-gutters'>
-          <Col md={3} className='p-3 mb-2 bg-info'>
-            <div className='d-flex flex-column justify-content-beetween pt-5 mr-5 ml-5 mb-5 pl-5'>
-              <img className='img-fluid' src={profile} alt="profile" />
-              <div className='text-center mt-3 mb-5 font-weight-bold'>Nikki Zefaya</div>
-              <Link>
-              <Navbar className='d-flex flex-column justify-content-beetwen mt-4 font-weight-bold' light expand='md'>
-                <NavbarBrand href='/Author'>Authors</NavbarBrand>
-                <NavbarBrand href='/Genre'>Genres</NavbarBrand>
-                <NavbarBrand href='/dashboard'onClick={this.toggleAddBook.bind(this)}>Add Book</NavbarBrand>
-                  <Modal isOpen={this.state.modalAddBook}>
-                    <ModalHeader toggle={this.toggleAddBook.bind(this)}>Add Book</ModalHeader>
-                    <ModalBody>
-                      <FormGroup>
-                        <Label className='w-100'>
-                          <div className='pl-2'>title</div>
-                          <Input type='title' placeholder='title'/>
-                        </Label>
-                      </FormGroup>
-                      <FormGroup>
-                        <Label className='w-100'>
-                          <div className='pl-2'>description</div>
-                          <Input type='description' placeholder='description'/>
-                        </Label>
-                      </FormGroup>
-                    </ModalBody>
-                    <ModalFooter>
-                      <Button color='primary'>Submit</Button>
-                      <Button color='secondary' onClick={this.toggleAddBook.bind(this)}>Cancel</Button>
-                    </ModalFooter>
-                  </Modal>
-              </Navbar>
-
-               </Link>
-
-            </div>
-          </Col>
-          <Col md={9}>
-            <Container>
-              <Nav style={{backgroundColor: '#f1f1f1'}}>
-              <div className="navbar shadow p-3 mb-5 bg-white rounded ml-3 ">
-                <Navbar className="w-100 bg-info" color="light" light expand="md">
-                  <NavbarBrand href="/dasbboard">All Category</NavbarBrand>
-                  <NavbarBrand href="/dashboard" className="ml-3">All Time</NavbarBrand>
-                  <FormGroup>
-                    <Label className="w-100 mt-4 ml-5">
-                      <Input className="ml-5 w-100" type="search" placeholder="looking for.."></Input>
-                    </Label>
-                  </FormGroup>
-                  <div className="d-flex w-100 justify-content-end pl-5">
-                    <img className="pl-5" src={logo} alt="logo" />
-                    <h3 className="mt-4 ">Library</h3>
-                  </div>
-                </Navbar>
+        <Row className="no-gutters w-100 h-100">
+          <div className="d-flex flex-row w-100">
+            <Sidebar />
+            <div className="w-100 d-flex flex-column">
+              <div className="top-navbar sticky-top">
+                <TopNavbar />
               </div>
-              </Nav>
-            </Container>
-            <div className='container'>
-              <Row className='w-100 list-book'>
-                <Col className='list-book-content'>
-                  <h4 className='pl-3'>List Genres</h4>
-                  <Row>
-                    {this.state.data.map((lis_book, index) => (
-                      <Col md={3}>
-                        <Card>
-                          <img className='Image' src={lis_book.image} alt="Card image cap" />
+              <Container fluid className="mt-4">
+                <Card>
+                  <Card.Header>Genre</Card.Header>
+                  <Card.Body>
+                    <button onClick={() => this.setState({ addModalShow: true })} className="btn btn-dark mb-2">Add</button>
 
-                          {/* <CardImg top width="50%" src={books.image} alt="Card image cap" /> */}
-                          <CardBody>
-                            <Link to={'/detail'}>
-                              <CardTitle className='center'>{lis_book.book_title}</CardTitle>
-                            </Link>
-                            <CardText>{lis_book.book_desc}</CardText>
-                            {/* <Button>Button</Button> */}
+                    <AddGenre
+                      show={this.state.addModalShow}
+                      onHide={addModalClose}
+                      refreshData={()=>this.fetchData()}
+                    />
 
-                          </CardBody>
-                        </Card>
-                      </Col>
-                    ))}
-                  </Row>
-                </Col>
-              </Row>
+                      {/* <EditAuthor
+                        show={this.state.editModalShow}
+                        onHide={editModalClose}
+                        refreshData={()=>this.fetchData()}
+                        authorid={authorid}
+                        authorname={authorname}
+                        authordescription={authordescription}
+                        /> */}
+
+
+                    <Table bordered>
+                      <thead align="center">
+                        <tr>
+                          <th>No</th>
+                          <th>Genre</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      {this.state.data.length !== 0 && (
+                        <tbody align="center">
+                          {this.state.data.map((genre, index) => (
+                            <tr key={genre.id.toString()} >
+                              <td>{index + 1}</td>
+                              <td>{genre.name}</td>
+                              <td align="center">
+                                {/* <button onClick={()=>{this.setState({editModalShow:true,
+                                                                     authorid: author.id,
+                                                                     authorname:author.name,
+                                                                     authordescription: author.description})}} className = 'btn btn-warning ml-2'>Edit</button> */}
+                                <button onClick={() => { this.onDelete(genre.id) }} className="btn btn-danger ml-2">Delete</button>
+                                {/*   <button onClick={() =>  { if (window.confirm('Are you sure you wish to delete this item?')) this.deleteAuthor(author.id)} } className="btn btn-danger ml-2">Delete</button> */}
+                              </td>
+                              {this.state.alert}
+                            </tr>
+                          ))}
+                        </tbody>
+                      )}
+                    </Table>
+                  </Card.Body>
+                </Card>
+              </Container>
             </div>
-
-
-          </Col>
+          </div>
         </Row>
-
       </>
     )
-  }
+  };
 }
-
 export default Genre

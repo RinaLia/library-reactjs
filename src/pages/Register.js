@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import logo from '../assets/bookshelf.png'
 import {Row, Col, Form, FormGroup, Input, Label, Button} from 'reactstrap'
+import { Link } from 'react-router-dom'
 
 class Register extends Component {
   // constructor(props){
@@ -68,8 +69,12 @@ render() {
                     </Label>
                   </FormGroup>
                   <div className='mt-100'>
-                    <Button color='primary'>Sign Up</Button>
-                    <Button color='secondary' className='ml-2'>Login</Button>
+                    <Link to={'/dashboard'}>
+                      <Button>Sign Up</Button>
+                    </Link>
+                    <Link to={'/login'}>
+                      <Button className='ml-2'>Login</Button>
+                    </Link>
                   </div>
                 </Form>
               </div>
