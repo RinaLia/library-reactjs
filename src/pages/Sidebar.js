@@ -1,48 +1,71 @@
 import React, { Component } from 'react'
-import { Nav } from 'react-bootstrap'
+import { Nav, Navbar } from 'react-bootstrap'
+import { Modal, ModalBody, ModalFooter, Button } from 'reactstrap'
 
 import { Link } from 'react-router-dom';
 import profil from '../assets/profil.png'
 
 class Sidebar extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            showLogout: false,
+            blaBlaBla: ""
+        }
+        this.toggleLogoutModal = this.toggleLogoutModal.bind(this)
+    }
+
+    dashboard = (e) => {
+        e.preventDefault()
+
+        this.props.history.push('/dashboard')
+    }
+
+    toggleLogoutModal() {
+        this.setState({
+            showLogoutModal: !this.state.showLogoutModal
+        })
+        localStorage.removeItem('token');
+        console.log(this.state.showLogoutModal)
+    }
+
     render(){
         return(
             <>
-            <Nav className="d-none d-md-block sidebar bg-light shadow">
-                <div className="avatar-img mt-3 mr-3 ml-3">
-                    <img src={profil} alt="avatar"/>
-                    <h1>Nikki</h1>
-                </div>
-                <Nav.Item className="mt-9">
-              <Link className="bg-warning nav-link text-decoration-none text-white" to="/dashboard"> Dashboard</Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Link className="bg-warning nav-link text-decoration-none text-white" to="/author"> Author</Link>
-                </Nav.Item>
-                <Nav.Item>
-                 <Link className="bg-warning nav-link text-decoration-none text-white" to="/genre"> Genre</Link>
-                </Nav.Item>
-                {/* <Nav.Item>
-                <Link className="bg-info nav-link text-decoration-none text-white" to="/transaction"> Transaction</Link>
-                </Nav.Item> */}
-                <Nav.Item>
-                <Link className="bg-warning nav-link text-decoration-none text-white" to="/user"> User</Link>
-                </Nav.Item>
-                {/* <Nav.Item>
-                <Link className="bg-info nav-link text-decoration-none text-white" to="/status"> Status</Link>
-                </Nav.Item> */}
-                <Nav.Item>
-                <Link className="bg-warning nav-link text-decoration-none text-white" to="/logout"> Logout</Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link eventKey="link-2">Link</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link eventKey="disabled" disabled>
-                    Disabled
-                    </Nav.Link>
-                </Nav.Item>
-            </Nav>
+             <Navbar bg="light" expand="sm" className="d-none d-md-block sidebar shadow">
+                    <div className="avatar-img">
+                        <img src={profil} alt="avatar" />
+                        <h4 className="text-center pr-5 mt-2">Nikki Zefanya</h4>
+                    </div>
+                    <div className="nav-side mt-5">
+                        <Nav.Item>
+                            <Link className="nav-link text-decoration-none text-white" to="/dashboard"> Dashboard</Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                            <Link className="nav-link text-decoration-none text-white" to="/author"> Author</Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                            <Link className="nav-link text-decoration-none text-white" to="/genre"> Genre</Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                            <Link className="nav-link text-decoration-none text-white" to="/user"> User</Link>
+                        </Nav.Item>
+                        <Button className='text-black ml-2 mb-2' color="danger" onClick={this.toggleLogoutModal}>Logout</Button>
+                        {/* <Nav.Item>
+                            <Link className="nav-link text-decoration-none text-white" to="/login"> Logout</Link>
+                        </Nav.Item> */}
+                    </div>
+                </Navbar>
+                <Modal isOpen={this.state.showLogoutModal}>
+                    <ModalBody className='h4'>Are you sure want to logout?</ModalBody>
+                    <ModalFooter>
+                        <Button color='danger'>
+                            <Link className="text-white" to="/login">Yes</Link>
+                        </Button>
+                        <Button color='secondary' onClick={this.toggleLogoutModal}>No</Button>
+                    </ModalFooter>
+                </Modal>
+           
             </>
         )
     }

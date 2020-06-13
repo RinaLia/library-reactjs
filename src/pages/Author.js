@@ -4,6 +4,7 @@ import Sidebar from './Sidebar'
 import { Container, Row, Table, Card, Pagination } from 'react-bootstrap';
 import axios from 'axios'
 import qs from 'querystring'
+import swal from 'sweetalert2'
 
 import SweetAlert from 'react-bootstrap-sweetalert'
 
@@ -37,6 +38,8 @@ class Author extends Component {
     const { data } = results.data
 
     const pageInfo = results.data.pageInfo
+    console.log("param: "+param)
+    console.log("pageInfo: "+pageInfo)
     this.setState({ data, pageInfo, isLoading: false })
     if (params) {
       this.props.history.push(`?${param}`)
@@ -68,7 +71,7 @@ class Author extends Component {
     this.setState({ show: false });
   };
 
-
+//modal confirm delete
   onDelete = (id) => {
     const getAlert = () => (
       <SweetAlert
@@ -82,6 +85,9 @@ class Author extends Component {
         focusCancelBtn
       >
         Delete this id {id}
+        
+        
+
       </SweetAlert>
     );
 

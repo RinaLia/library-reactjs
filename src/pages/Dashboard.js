@@ -2,15 +2,15 @@ import React, { Component } from 'react'
 import {
   Row,
   Col,
-  // Navbar,
-  // NavbarBrand,
+  Navbar,
+  NavbarBrand,
   Button,
-  // FormText,
-  // FormGroup,
-  // Form,
-  // Label,
-  // Input,
-  // Modal, ModalHeader, ModalBody, ModalFooter,
+  FormText,
+  FormGroup,
+  Form,
+  Label,
+  Input,
+  Modal, ModalHeader, ModalBody, ModalFooter,
   Card, CardImg, CardBody, CardDeck
 } from 'reactstrap'
 
@@ -20,6 +20,8 @@ import Sidebar from './Sidebar'
 import { Carousel, Jumbotron, Dropdown } from 'react-bootstrap'
 
 import axios from 'axios'
+
+import swal from 'sweetalert2'
 
 import {
   BrowserRouter as Router,
@@ -62,14 +64,64 @@ class Home extends Component {
       data: [],
       pageInfo: {},
       isLoading: false,
+      book_title: '',
+      book_desc: '',
+      image: '',
+      book_genre: '',
+      book_author: '',
+      book_status: '',
+      created_at: ''
     }
+    this.toggleAddModal = this.toggleAddModal.bind(this)
+		this.addBook = this.addBook.bind(this)
   }
+
+  toggleAddModal(){
+		this.setState({
+			showAddModal: !this.state.showAddModal
+		})
+  }
+  
+  async addBook (event) {
+		event.preventDefault()
+		const {REACT_APP_URL} = process.env
+		const dataSubmit = new FormData()
+		dataSubmit.append('image', this.state.image)
+		dataSubmit.set('book_title', this.state.book_title)
+		dataSubmit.set('book_desc', this.state.book_desc)
+		dataSubmit.set('book_genre', this.state.book_genre)
+    dataSubmit.set('book_author', this.state.book_author)
+    dataSubmit.set('book_status', this.state.book_status)
+    dataSubmit.set('created_at', this.state.created_at)
+
+		const url = `${REACT_APP_URL}books`
+		await axios.post(url, dataSubmit).then( (response) => {
+				console.log(response);
+				this.setState({showAddModal: false})
+				this.fetchData()
+				swal.fire({
+					icon: 'success',
+					title: 'Success',
+					text: 'Book added'
+				})
+			})
+			.catch(function (error) {
+				swal.fire({
+					icon: 'error',
+					title: 'haha!',
+					text: "Something's wrong"
+				})
+				console.log(error);
+			 })
+		this.props.history.push(`/dashboard`)
+	}
 
   fetchData = async (params) => {
     this.setState({ isLoading: true })
     const { REACT_APP_URL } = process.env
     const param = `${qs.stringify(params)}`
     const url = `${REACT_APP_URL}books?${param}`
+    // const url = 'http://localhost:5000/books'
     const results = await axios.get(url)
     const { data } = results.data
     const pageInfo = results.data.pageInfo
@@ -88,7 +140,12 @@ class Home extends Component {
     await this.fetchData(param)
   }
 
-
+  // async componentWillMount(){
+  //   const resultPost = await axios.post('http://localhost:5000/books')
+  //   const {data} = resultPost.data
+  //   this.setState({data})
+  //   // console.log(data)
+  // }
 
   render() {
     const params = qs.parse(this.props.location.search.slice(1))
@@ -121,7 +178,7 @@ class Home extends Component {
                           />
                           <Carousel.Caption>
                             <h3 className="text-light">{lis_book.book_title}</h3>
-                            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                            <p>{lis_book.book_desc}</p>
                           </Carousel.Caption>
                         </Carousel.Item>
                       ))}
@@ -130,10 +187,14 @@ class Home extends Component {
                 </Col>
                 <Row className='w-100 list-book'>
                   <Col className='list-book-content'>
+                    {/* <h4 className="pl-3">List All Books</h4> */}
                     <h4 className="pl-4 flex-row">List All Books
+                    <Col className='pl-1 mt-2'>
+									    <Button className='btn btn-add-admin bg-warning' onClick={this.toggleAddModal}>Add Book</Button>
+									  </Col>
                         <div className='d-flex justify-content-end'>
-                        {<Button className='btn-sm btn-sort' onClick={() => this.fetchData({ ...params, sort: 0 })}>Asc</Button>}&nbsp;|&nbsp;
-                          {<Button className='btn-sm btn-sort' onClick={() => this.fetchData({ ...params, sort: 1 })}>Desc</Button>}
+                        {<Button className='btn-sm btn-sort bg-warning' onClick={() => this.fetchData({ ...params, sort: 0 })}>Asc</Button>}&nbsp;|&nbsp;
+                          {<Button className='btn-sm btn-sort bg-warning' onClick={() => this.fetchData({ ...params, sort: 1 })}>Desc</Button>}
                       </div>
                     </h4>
                     <Row xs='4' className='w-100 mb-5 card-deck'>
@@ -173,17 +234,17 @@ class Home extends Component {
                   <Col>
                     <div className='d-flex flex-row justify-content-between'>
                       <div>
-                        {<Button className="ml-5" onClick={() => this.fetchData({ ...params, page: parseInt(params.page) - 1 })}>Prev</Button>}
+                        {<Button className="ml-5 bg-warning" onClick={() => this.fetchData({ ...params, page: parseInt(params.page) - 1 })}>Prev</Button>}
                       </div>
                       <div>
                         {[...Array(this.state.pageInfo.totalPage)].map((o, i) => {
                           return (
-                            <Button onClick={() => this.fetchData({ ...params, page: params.page ? i + 1 : i + 1 })} className='mr-1 ml-1' key={i.toString()}>{i + 1}</Button>
+                            <Button  onClick={() => this.fetchData({ ...params, page: params.page ? i + 1 : i + 1 })} className='mr-1 ml-1 bg-warning' key={i.toString()}>{i + 1}</Button>
                           )
                         })}
                       </div>
                       <div>
-                        <Button className="mr-5" onClick={() => this.fetchData({ ...params, page: parseInt(params.page) + 1 })}>Next</Button>
+                        <Button className="mr-5 bg-warning " onClick={() => this.fetchData({ ...params, page: parseInt(params.page) + 1 })}>Next</Button>
                       </div>
                     </div>
                   </Col>
@@ -192,6 +253,31 @@ class Home extends Component {
             </div>
           )}
         </Row>
+        <Modal isOpen={this.state.showAddModal}>
+					<ModalHeader className='h1'>Add Book</ModalHeader>
+						<Form>
+							<ModalBody>
+									<h6>Title</h6>
+									<Input type='text' name='book_title' className='mb-2 shadow-none' onChange={this.handlerChange}/>
+									<h6>Description</h6>
+									<Input type='text' name='book_desc' className='mb-3 shadow-none' onChange={this.handlerChange}/>
+									<h6>Author</h6>
+									<Input type='text' name='book_author' className='mb-3 shadow-none' onChange={this.handlerChange}/>
+									<h6>Genre</h6>
+									<Input type='text' name='book_genre' className='mb-3 shadow-none' onChange={this.handlerChange}/>
+                  <h6>Status</h6>
+									<Input type='text' name='book_status' className='mb-3 shadow-none' onChange={this.handlerChange}/>
+                  <h6>Created-at</h6>
+									<Input type='date' name='created_at' className='mb-3 shadow-none' onChange={this.handlerChange}/>
+									<h6>Cover Image</h6>
+									<Input type='file' name='image' className='mb-2' onChange={(e) => this.setState({image: e.target.files[0]})}/>
+							</ModalBody>
+							<ModalFooter>
+									<Button color="primary" onClick={this.addBook}>Add Book</Button>
+									<Button color="secondary" onClick={this.toggleAddModal}>Cancel</Button>
+							</ModalFooter>
+						</Form>
+				</Modal>
       </>
     )
   }

@@ -102,14 +102,14 @@ class Home extends Component {
 				swal.fire({
 					icon: 'success',
 					title: 'Success',
-					text: 'Nais! Book added'
+					text: 'Book added'
 				})
 			})
 			.catch(function (error) {
 				swal.fire({
 					icon: 'error',
-					title: 'haha!',
-					text: "Something's wrong, I can feel it"
+					title: 'Upss!',
+					text: "Something's wrong"
 				})
 				console.log(error);
 			 })

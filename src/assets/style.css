@@ -27,7 +27,7 @@ html, body, #root{
   height:425px
   
 }
-.full-cover {
+.full-cover img{
   margin-top: -230px;
 }
 .books-details{
@@ -55,10 +55,17 @@ html, body, #root{
 .sidebar {
   height: 100%;
   width: 25%;
-  background-color: black;
+
   transition: 0.7s;
 }
 
+
+/*sidebar*/
+.avatar-img{
+  margin-top: 50px;
+  margin-left: 20px;
+
+}
 
 .avatar {
   vertical-align: middle;
@@ -66,6 +73,21 @@ html, body, #root{
   height: 100px;
   border-radius: 50%;
 }
+
+.nav-side{
+  background-color: rosybrown
+}
+
+.nav{
+  background-color: rosybrown
+}
+
+nav .top-navbar{
+  height: 100px;
+  background-color: rgb(216, 167, 128);
+  position: fixed;
+}
+
 
 
 
