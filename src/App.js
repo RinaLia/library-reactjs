@@ -1,79 +1,106 @@
+import React, { Component } from "react";
+import { BrowserRouter, Switch, Route, Router } from "react-router-dom";
 
-import React, {Component} from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import axios from 'axios'
+import axios from "axios";
 
-// import Hello from'./components/Greetings'
-// import Login from './pages/Login'
-import Register from './pages/Register'
-import DetailsTry from './pages/DetailsTry'
-// import Dashboard from './pages/Dashboard'
-import User from './pages/User'
-// import History from './pages/Det'
-import Login from './pages/Login'
-import Genre from './pages/Genre'
-import Dashboard from './pages/Dashboard'
-import Sidebar from './pages/Sidebar'
-import Author from './pages/Author'
-import Home from './pages/Home'
-import LandingPage from './pages/LandingPages'
-
+import LoginAdmin from "./pages/LoginAdmin";
+import LoginUser from "./pages/LoginUser";
+import Register from "./pages/Register";
+import Dashboard from "./pages/Dashboard";
+import DetailsHome from "./pages/DetailsHome";
+import DetailsTry from "./pages/DetailsTry";
+// import LoginAdmin from './pages/LoginAdmin'
+import Sidebar from "./pages/Sidebar";
+import Navbar from "./pages/Navbar";
+import Author from "./pages/admin/Author";
+import Genres from "./pages/admin/Genre";
+import Users from "./pages/admin/Users";
+import Transactions from "./pages/admin/Transactions";
+import history from "./utils/history";
+import HomeUser from "./pages/HomeUser";
+import HomeFirst from "./pages/HomeFirst";
+import DetailsUser from "./pages/DetailsUser";
+import store from "./redux/store";
+import { Provider } from "react-redux";
+// import ListBook from './pages/ListBook'
 
 class App extends Component {
-  constructor(props){
-    super(props)
-    this.state={
-      data:[],
-      isLogin:false
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLogin: false,
+      data: [],
+    };
     this.checkLogin = () => {
-      if(localStorage.getItem('token')){
-        this.setState({isLogin:true})
-      }else{
-        this.setState({isLogin: false})
+      if (localStorage.getItem("token")) {
+        this.setState({ isLogin: true });
+      } else {
+        this.setState({ isLogin: false });
       }
-    }
+    };
+  }
+  async componentDidMount() {
+    // this.checkLogin();
+    // const results = await axios.get("http://localhost:5000/books");
+    // const { data } = results.data;
+    // this.setState({ data });
+    // console.log(data);
   }
 
-async componentDidMount() {
-  // const results = await axios.get('http://localhost:5000/books')
-  // const {data} = results.data 
-  // this.setState({data})
-  this.checkLogin()
-  const results = await axios.get('http://localhost:5000/books')
-  const {data} = results.data
-  this.setState({data})
-
+  render() {
+    return (
+      <>
+        <Provider store={store}>
+          <BrowserRouter>
+            <Router history={history}>
+              {/* <Navbar isLogin={this.state.isLogin} check={()=>this.checkLogin()} /> */}
+              <Switch>
+                {/* <Route path='/login' exact component={Login} /> */}
+                <Route path="/" exact component={HomeFirst} />
+                <Route
+                  path="/home"
+                  exact
+                  render={(props) => <HomeUser {...props} />}
+                />
+                <Route
+                  path="/admin"
+                  render={(props) => (
+                    <LoginAdmin {...props} check={() => this.checkLogin()} />
+                  )}
+                  exact
+                />
+                <Route
+                  path="/user"
+                  render={(props) => (
+                    <LoginUser {...props} check={() => this.checkLogin()} />
+                  )}
+                  exact
+                />
+                <Route
+                  path="/dashboard"
+                  render={(props) => <Dashboard {...props} />}
+                  exact
+                ></Route>
+                <Route path="/register" exact component={Register} />
+                {/* <Route path='/home' component={Home} /> */}
+                <Route path="/detailstry/:id" exact component={DetailsTry} />
+                <Route path="/detailshome/:id" exact component={DetailsHome} />
+                <Route path="/detailsuser/:id" exact component={DetailsUser} />
+                {/* <Route path='/adminlogin' exact component={LoginAdmin} /> */}
+                <Route path="/sidebar" exact component={Sidebar} />
+                <Route path="/navbar" exact component={Navbar} />
+                <Route path="/author" exact component={Author} />
+                <Route path="/genres" exact component={Genres} />
+                <Route path="/users" exact component={Users} />
+                <Route path="/transactions" exact component={Transactions} />
+                {/* <Route path='/list-book'  component={ListBook} /> */}
+              </Switch>
+            </Router>
+          </BrowserRouter>
+        </Provider>
+      </>
+    );
+  }
 }
 
-
-render() {
-  return (
-    <>
-    
-      <BrowserRouter>
-        <Switch>
-          <Route path="/" exact component={Login}/>
-          <Route path="/register" component={Register}/>
-          {/* <Route path="/tes" component={tes}/> */}
-          {/* <Route path="/dashboard" component={Dashboard}/> */}
-          <Route path="/login" render={(props)=><Login {...props} check={()=>this.checkLogin()}/>} exact/>
-          <Route path="/user" component={User}/>
-          <Route path="/genre" component={Genre}/>
-          <Route path="/detailstry/:id" component={DetailsTry}/>
-          <Route path="/dashboard" render={(props)=><Dashboard{...props}/>}exact></Route>
-          <Route path="/sidebar" component={Sidebar}/>
-          <Route path="/author" component={Author}/>
-          <Route path='/home' component={Home}/>
-          <Route path='/landingpage' component={LandingPage}/>
-        </Switch>
-      </BrowserRouter>
-
-    </>
-  );
-}
-
-}
 export default App;
-
-

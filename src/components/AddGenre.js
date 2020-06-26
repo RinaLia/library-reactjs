@@ -1,15 +1,16 @@
 import React, { Component } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { connect } from "react-redux";
-import { getAuthor, postAuthor } from "../redux/action/author";
+import { getGenre, postGenre } from "../redux/action/genre";
 import swal from "sweetalert2";
 
-class AddAuthor extends Component {
+class AddGenre extends Component {
   constructor(props) {
     super(props);
     this.state = {
       name: "",
-      description: "",
+      created_at: "",
+      updated_at: "",
     };
     this.handlePost = this.handlePost.bind(this);
   }
@@ -20,7 +21,7 @@ class AddAuthor extends Component {
 
   fetchData = async () => {
     this.setState({ isLoading: true });
-    this.props.getAuthor().then((response) => {
+    this.props.getGenre().then((response) => {
       this.setState({ isLoading: false });
     });
   };
@@ -28,15 +29,17 @@ class AddAuthor extends Component {
   handlePost = async (event) => {
     event.preventDefault();
     this.setState({ isLoading: true });
-    const authorData = {
+    const genreData = {
       name: this.state.name,
       description: this.state.description,
+      created_at: this.state.created_at,
+      updated_at: this.state.updated_at,
     };
-    this.props.postAuthor(authorData).then((response) => {
+    this.props.postGenre(genreData).then((response) => {
       swal.fire({
         icon: "success",
         title: "Success",
-        text: "Add author success",
+        text: "Add genre success",
       });
       this.props.refreshdata();
       this.props.onHide();
@@ -53,29 +56,38 @@ class AddAuthor extends Component {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Add Author
+            Add Genre
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="contaniner">
             <Form onSubmit={this.handlePost}>
               <Form.Group controlId="formBasicEmail">
-                <Form.Label>Name Author</Form.Label>
+                <Form.Label>Name Genre</Form.Label>
                 <Form.Control
                   name="name"
                   onChange={this.handleChange}
                   type="text"
-                  placeholder="Name Author"
+                  placeholder="Name Genre"
                 />
                 <Form.Text className="text-muted">Please text mode</Form.Text>
               </Form.Group>
               <Form.Group controlId="formBasicEmail">
-                <Form.Label>Description</Form.Label>
+                <Form.Label>Created-at</Form.Label>
                 <Form.Control
-                  name="description"
+                  name="created_at"
                   onChange={this.handleChange}
-                  type="text"
-                  placeholder="Description"
+                  type="date"
+                  placeholder="Created-at"
+                />
+              </Form.Group>
+              <Form.Group controlId="formBasicEmail">
+                <Form.Label>Updated-at</Form.Label>
+                <Form.Control
+                  name="updated_at"
+                  onChange={this.handleChange}
+                  type="date"
+                  placeholder="Updated-at"
                 />
               </Form.Group>
               <Button
@@ -97,6 +109,7 @@ class AddAuthor extends Component {
     );
   }
 }
-const mapDispatchToPros = { getAuthor, postAuthor };
 
-export default connect(null, mapDispatchToPros)(AddAuthor);
+const mapDispatchToPros = { getGenre, postGenre };
+
+export default connect(null, mapDispatchToPros)(AddGenre);

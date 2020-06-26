@@ -3,31 +3,23 @@ import {
   Row,
   Col,
   Button,
-  Form,
-  Input,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
   Card,
   CardImg,
   CardBody,
   CardDeck,
+  Badge,
 } from "reactstrap";
+import { IoMdArrowRoundDown } from "react-icons/io";
+import { IoMdArrowRoundUp } from "react-icons/io";
 
-import TopNavbar from "./Navbar";
+import TopNavbar from "./NavbarHome";
 import { Carousel, Jumbotron } from "react-bootstrap";
 import axios from "axios";
-import swal from "sweetalert2";
+import Loading from "../components/Loadings";
 
 import { Link } from "react-router-dom";
 
 import qs from "querystring";
-import Loading from "../components/Loadings";
-
-import { connect } from "react-redux";
-
-import { getBook, postBook } from "../redux/actions/book";
 
 class Home extends Component {
   state = {
@@ -47,34 +39,12 @@ class Home extends Component {
 
   constructor(props) {
     super(props);
-    this.checkToken = () => {
-      if (!localStorage.getItem("token")) {
-        alert("You must login first");
-        props.history.push("/admin");
-      }
-      // else {
-      //   props.history.push('/home')
-      // }
-    };
     this.state = {
       data: [],
       pageInfo: {},
       isLoading: false,
-      book_title: "",
-      book_desc: "",
-      image: "",
-      book_genre: 0,
-      book_author: "",
-      authorList: [],
-      book_status: "",
-      statusList: [],
-      created_at: "",
-      genreList: [],
-      file: [],
-      file_: {},
     };
     this.toggleAddModal = this.toggleAddModal.bind(this);
-    this.addBook = this.addBook.bind(this);
   }
 
   toggleAddModal() {
@@ -83,111 +53,49 @@ class Home extends Component {
     });
   }
 
-  handleImage = (e) => {
-    this.setState({
-      file: URL.createObjectURL(e.target.files[0]),
-      file_: e.target.files[0],
-    });
-  };
-
-  async addBook(event) {
-    event.preventDefault();
-
-    if (this.state.file_.size > 0) {
-      if (
-        this.state.file_.size >= 1240000 ||
-        this.state.file_.type.split("/")[0] !== "image"
-      ) {
-        swal.fire(
-          "Failed",
-          "Max file size is 1.2 MB and file type just image (.img)",
-          "error"
-        );
-        return;
-      }
-    }
-
-    const dataSubmit = new FormData();
-    if (this.state.file_.size > 0) {
-      dataSubmit.append("image", this.state.file_);
-    }
-    // dataSubmit.append('image', this.state.image)
-    dataSubmit.set("book_title", this.state.book_title);
-    dataSubmit.set("book_desc", this.state.book_desc);
-    dataSubmit.set("book_genre", this.state.book_genre);
-    dataSubmit.set("book_author", this.state.book_author);
-    dataSubmit.set("book_status", this.state.book_status);
-    dataSubmit.set("created_at", this.state.created_at);
-
-    this.props
-      .postBook(dataSubmit)
-      .then((response) => {
-        console.log(response);
-        this.setState({ showAddModal: false });
-        this.fetchData();
-        swal.fire({
-          icon: "success",
-          title: "Success",
-          text: "Book has been Updated",
-        });
-      })
-      .catch(function (error) {
-        swal.fire({
-          icon: "error",
-          title: "haha!",
-          text: "Something's wrong",
-        });
-        console.log(error);
-      });
-    this.props.history.push(`/dashboard`);
-  }
-
   fetchData = async (params) => {
     this.setState({ isLoading: true });
-    const param = `${qs.stringify(params)}`;
-    this.props.getBook(param).then((response) => {
-      const pageInfo = this.props.book.pageInfo;
-
-      this.setState({ pageInfo, isLoading: false });
-      if (param) {
-        this.props.history.push(`?${param}`);
-      }
-    });
-  };
-
-  genreList = async () => {
-    this.setState({ isLoading: true });
     const { REACT_APP_URL } = process.env;
-    const url = `${REACT_APP_URL}books/genres`;
-    console.log(url);
+    const param = `${qs.stringify(params)}`;
+    const url = `${REACT_APP_URL}books?${param}`;
+    // const url = 'http://localhost:5000/books'
     const results = await axios.get(url);
-    this.setState({ genreList: results.data.data });
-    console.log(results);
+    const { data } = results.data;
+    const pageInfo = results.data.pageInfo;
+    this.setState({ data, pageInfo, isLoading: false });
+    if (params) {
+      this.props.history.push(`?${param}`);
+    }
   };
 
   async componentDidMount() {
     // this.checkToken()
-    this.checkToken();
-    await this.genreList();
+    const { REACT_APP_URL } = process.env;
+    const url = `${REACT_APP_URL}books`;
+    const results = await axios.get(url);
+    const { data } = results.data;
+    this.setState({ data });
+    console.log(data);
     const param = qs.parse(this.props.location.search.slice(1));
     await this.fetchData(param);
   }
 
-  render() {
-    const { dataBook, isLoading, pageInfo } = this.props.book;
+  // async componentWillMount(){
+  //   const resultPost = await axios.post('http://localhost:5000/books')
+  //   const {data} = resultPost.data
+  //   this.setState({data})
+  //   // console.log(data)
+  // }
 
+  render() {
     const params = qs.parse(this.props.location.search.slice(1));
     params.page = params.page || 1;
     params.sort = 0;
     return (
       <>
         <Row className="w-100 h-100">
-          {this.state.isLoading && (
-            <div className="d-flex justify-content-center align-items-center"></div>
-          )}
           {!this.state.isLoading && (
             <div className="d-flex flex-row w-100 ml-3">
-              {/* <Sidebar className="ml-3" /> */}
               <div className="w-100 h-100 d-flex flex-column">
                 <div className="top-navbar sticky-top">
                   <TopNavbar
@@ -196,10 +104,10 @@ class Home extends Component {
                   />
                 </div>
                 <Col>
-                  <Jumbotron className="slider-bg mt-3">
+                  <Jumbotron className="slider-bg mt-4">
                     <Carousel>
-                      {dataBook.map((lis_book, index) => (
-                        <Carousel.Item key={lis_book.id.toString()}>
+                      {this.state.data.map((lis_book, index) => (
+                        <Carousel.Item>
                           <img
                             style={{ height: "300px" }}
                             className="d-block"
@@ -220,52 +128,38 @@ class Home extends Component {
                 <Row className="w-100 list-book">
                   <Col className="list-book-content">
                     {/* <h4 className="pl-3">List All Books</h4> */}
-                    <h4 className="pl-4 flex-row">List All Books </h4>
-                    <Col className="pl-1 d-flex justify-space-beetween">
-                      <div className="pl-4">
-                        <Button
-                          className="btn btn-add-admin"
-                          color="success"
-                          onClick={this.toggleAddModal}
-                        >
-                          Add Book
-                        </Button>
-                      </div>
-                    </Col>
-                    <Col>
+                    <h4 className="pl-4 flex-row">
+                      List All Books
                       <div className="d-flex justify-content-end">
                         {
-                          <Button
-                            className="btn-sm btn-sort"
-                            color="info"
+                          <IoMdArrowRoundUp
+                            className="sort"
                             onClick={() =>
                               this.fetchData({ ...params, sort: 0 })
                             }
                           >
                             Asc
-                          </Button>
+                          </IoMdArrowRoundUp>
                         }
                         &nbsp;|&nbsp;
                         {
-                          <Button
-                            className="btn-sm btn-sort text-white"
-                            color="warning"
+                          <IoMdArrowRoundDown
+                            className="sort"
                             onClick={() =>
                               this.fetchData({ ...params, sort: 1 })
                             }
                           >
                             Desc
-                          </Button>
+                          </IoMdArrowRoundDown>
                         }
                       </div>
-                    </Col>
+                    </h4>
                     <Row className="w-100 mb-5 card-deck">
-                      {dataBook.map((lis_book, index) => (
+                      {this.state.data.map((lis_book, index) => (
                         <Link
-                          key={lis_book.id.toString()}
                           className="text-decoration-none"
                           to={{
-                            pathname: `/detailstry/${lis_book.id}`,
+                            pathname: `/detailshome/${lis_book.id}`,
                             state: {
                               id: `${lis_book.id}`,
                               book_title: `${lis_book.book_title}`,
@@ -278,11 +172,14 @@ class Home extends Component {
                           }}
                         >
                           <Col xs="12" className="ml-5">
-                            <CardDeck top width="100%">
-                              <Card role="button" className="mt-3 b-shadow">
+                            <CardDeck width="100%">
+                              <Card
+                                role="button"
+                                className="mt-3 w-100 b-shadow"
+                              >
                                 <CardImg
-                                  top
                                   width="100%"
+                                  className="img-fluid"
                                   src={lis_book.image}
                                   alt="Card image cap"
                                 />
@@ -290,8 +187,10 @@ class Home extends Component {
                                   <div className="text-dark h5">
                                     {lis_book.book_title}
                                   </div>
-                                  <div className="text-dark h5">
-                                    {lis_book.genre}
+                                  <div>
+                                    <Badge color="primary">
+                                      {lis_book.book_genre}
+                                    </Badge>
                                   </div>
                                   <div className="text-muted">
                                     {lis_book.book_status}
@@ -335,6 +234,8 @@ class Home extends Component {
                           (o, i) => {
                             return (
                               <Button
+                                outline
+                                color="secondary"
                                 onClick={() =>
                                   this.fetchData({
                                     ...params,
@@ -371,96 +272,10 @@ class Home extends Component {
             </div>
           )}
         </Row>
-        <Modal isOpen={this.state.showAddModal}>
-          <ModalHeader className="h1">Add Book</ModalHeader>
-          <Form>
-            <ModalBody>
-              <h6>Title</h6>
-              <Input
-                type="text"
-                name="book_title"
-                className="mb-2 shadow-none"
-                onChange={this.handlerChange}
-              />
-              <h6>Description</h6>
-              <Input
-                type="text"
-                name="book_desc"
-                className="mb-3 shadow-none"
-                onChange={this.handlerChange}
-              />
-              <h6>Author</h6>
-              <Input
-                type="text"
-                name="book_author"
-                className="mb-3 shadow-none"
-                onChange={this.handlerChange}
-                value={this.state.book_author}
-              />
-              <h6>Genre</h6>
-              <Input
-                type="select"
-                name="book_genre"
-                className="mb-3 shadow-none"
-                onChange={this.handlerChange}
-                value={this.state.book_genre}
-              >
-                {this.state.genreList.map((book_genre, index) => (
-                  <option
-                    key={book_genre.id.toString()}
-                    className="list-group-item bg-light"
-                    value={book_genre.name}
-                  >
-                    {book_genre.name}
-                  </option>
-                ))}
-              </Input>
-              <h6>Status</h6>
-              <Input
-                type="select"
-                name="book_status"
-                className="mb-3 shadow-none"
-                onChange={this.handlerChange}
-              >
-                <option>Available</option>
-                <option>Empty</option>
-              </Input>
-              <h6>Created-at</h6>
-              <Input
-                type="date"
-                name="created_at"
-                className="mb-3 shadow-none"
-                onChange={this.handlerChange}
-              />
-              <h6>Cover Image</h6>
-              <Input
-                type="file"
-                accept="image/*"
-                name="file"
-                id="file"
-                onChange={this.handleImage}
-              />
-            </ModalBody>
-            <ModalFooter>
-              <Button color="primary" onClick={this.addBook}>
-                Add Book
-              </Button>
-              <Button color="secondary" onClick={this.toggleAddModal}>
-                Cancel
-              </Button>
-            </ModalFooter>
-          </Form>
-        </Modal>
         {this.state.isLoading && <Loading />}
       </>
     );
   }
 }
 
-const mapStateToProps = (state) => ({
-  book: state.book,
-});
-
-const mapDispatchToProps = { getBook, postBook };
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default Home;

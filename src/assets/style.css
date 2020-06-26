@@ -1,19 +1,17 @@
+
+
 html, body, #root{
+  width: 100%;
   height: 100%;
 }
 
 .login-cover{
-  background-image: url(mollie-sivaram-_1gBVgy8gIU-unsplash.png);
+  background-image: url(photo-1573592371950-348a8f1d9f38.jpeg);
   background-size: contain;
 }
 
-.login-overlay{
-  padding: 20px;
-  background-color: rgba(0,0,0,0.5);
-}
-
 .register-cover{
-  background-image: url(mollie-sivaram-_1gBVgy8gIU-unsplash.png);
+  background-image: url(photo-1573592371950-348a8f1d9f38.jpeg);
   background-size: contain;
 }
 
@@ -22,50 +20,82 @@ html, body, #root{
   background-color: rgba(0,0,0,0.5);
 }
 
-.header{
-  background-image: url(cover.png);
-  height:425px
-  
-}
 .full-cover img{
   margin-top: -230px;
 }
-.books-details{
-  margin-top:-50px;
+
+.half-cover {
+  height: 425px;
+  background-image: url(covernya.png);
+}
+.book-details {
+  margin-top: -50px;
 }
 
-.bg-cover{
+.bg-cover {
   background-size: cover;
 }
 
-/* .Image{
+.slider-cover {
+  background-size: cover;
+}
+
+.content-home{
   width: 100%;
-  height: 15vw;
-  object-fit: contain;
-  right:50%
+  height: 100%;
+}
+
+
+.slider-bg{
+ 
+  background-image: url(slider-bg.jpg);
+}
+
+/* topanavbar*/
+/* nav .top-navbar{
+  height: 100px;
+  background-color: rgb(216, 167, 128);
+  position: fixed;
 } */
 
-.fit-box{
-  object-fit: none;
-  object-position: center;
-  max-height: 150px;
-  width: 100%;
+.top-navbar{
+  background-color: #b2ebf2;
+  /* height:100px;
+  position: fixed; */
+
+}
+
+
+.navbar-brand img{
+  width: 100px;
+  height: 50px;
+ }
+
+ .brand img {
+  width: 50px;
+  height: 50px;
+ }
+
+.form-inline input {
+  border-radius: 20px;
+}
+
+/*sidebar */
+
+.avatar-img {
+  margin-top: 50px;
+  margin-left: 20px;
+}
+.avatar-img h1 {
+  margin-left: 20px;
 }
 
 .sidebar {
   height: 100%;
   width: 25%;
-
   transition: 0.7s;
 }
 
-
-/*sidebar*/
-.avatar-img{
-  margin-top: 50px;
-  margin-left: 20px;
-
-}
 
 .avatar {
   vertical-align: middle;
@@ -75,18 +105,11 @@ html, body, #root{
 }
 
 .nav-side{
-  background-color: rosybrown
+  background-color: rgb(206, 142, 87)
 }
 
-.nav{
-  background-color: rosybrown
-}
 
-nav .top-navbar{
-  height: 100px;
-  background-color: rgb(216, 167, 128);
-  position: fixed;
-}
+
 
 
 

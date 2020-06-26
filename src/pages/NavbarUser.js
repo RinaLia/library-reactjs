@@ -1,19 +1,16 @@
 import React, { Component } from "react";
 
-import { Form, Navbar, Nav, FormControl, Container } from "react-bootstrap";
+import { Form, Navbar, Nav, FormControl } from "react-bootstrap";
 
 import { Button, Modal, ModalBody, ModalFooter } from "reactstrap";
-
 import { IoMdLogOut } from "react-icons/io";
-import { TiHome } from "react-icons/ti";
-import { BsPen } from "react-icons/bs";
-import { AiFillDollarCircle } from "react-icons/ai";
-import { FaUserAlt } from "react-icons/fa";
-import { MdLocalMovies } from "react-icons/md";
 
 import { Link } from "react-router-dom";
 import history from "../utils/history";
+// import brand from "../assets/booklogo.png";
 import Loading from "../components/Loadings";
+import { connect } from "react-redux";
+import { logout } from "../redux/action/auth";
 
 class TopNavbar extends Component {
   constructor(props) {
@@ -24,15 +21,16 @@ class TopNavbar extends Component {
       showLogout: false,
     };
     this.onLogout = () => {
-      this.setState({ isLoading: true }, () => {
-        setTimeout(() => {
-          this.setState({ isLoading: false }, () => {
-            localStorage.removeItem("token");
-            // this.props.check()
-            history.push("/admin");
-          });
-        }, 1000);
-      });
+      this.props.logout();
+      // this.setState({ isLoading: true }, () => {
+      //   setTimeout(() => {
+      //     this.setState({ isLoading: false }, () => {
+      //       localStorage.removeItem("token");
+
+      //       history.push("/user");
+      //     });
+      //   }, 1000);
+      // });
     };
     this.toggleLogoutModal = this.toggleLogoutModal.bind(this);
   }
@@ -59,45 +57,13 @@ class TopNavbar extends Component {
     return (
       <>
         <Navbar expand="sm" className="w-100 h-100 no-gutters top-navbar ">
-          <Navbar.Brand href="#home"></Navbar.Brand>
-          <Nav>
-            <Link
-              className="nav-link text-decoration-none text-dark"
-              to="/dashboard"
-            >
-              <TiHome size="2rem">Home</TiHome>
-            </Link>
-            <Link
-              className="nav-link text-decoration-none text-dark"
-              to="/author"
-            >
-              <BsPen size="2rem">Author</BsPen>
-            </Link>
-            <Link
-              className="nav-link text-decoration-none text-dark"
-              to="/genres"
-            >
-              <MdLocalMovies size="2rem">Genre</MdLocalMovies>
-            </Link>
-            <Link
-              className="nav-link text-decoration-none text-dark"
-              to="/transactions"
-            >
-              <AiFillDollarCircle size="2rem">Transactions</AiFillDollarCircle>
-            </Link>
-            <Link
-              className="nav-link text-decoration-none text-dark"
-              to="/users"
-            >
-              <FaUserAlt size="2rem">User</FaUserAlt>
-            </Link>
-          </Nav>
+          <Navbar.Brand href="#home">Happy Reading!</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="d-flex w-100 justify-content-center">
               <Form inline onSubmit={(e) => e.preventDefault()}>
-                {/* <BsSearch size="1rem" /> */}
                 <FormControl
+                  // <BsSearch size='5rem/'>
                   type="text"
                   placeholder="Search"
                   onKeyDown={(e) => this.search(e)}
@@ -106,6 +72,13 @@ class TopNavbar extends Component {
                 />
               </Form>
             </Nav>
+            {/* <Button
+              className="text-black mr-3"
+              color="danger"
+              onClick={this.toggleLogoutModal}
+            >
+              Logout
+            </Button> */}
             <div className="d-flex mr-3">
               <IoMdLogOut
                 color="red"
@@ -117,7 +90,6 @@ class TopNavbar extends Component {
             </div>
           </Navbar.Collapse>
         </Navbar>
-
         <Modal isOpen={this.state.showLogoutModal}>
           <ModalBody className="h4">Do you want to logout?</ModalBody>
           <ModalFooter>
@@ -136,4 +108,9 @@ class TopNavbar extends Component {
     );
   }
 }
-export default TopNavbar;
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+const mapDispatchToProps = { logout };
+export default connect(mapStateToProps, mapDispatchToProps)(TopNavbar);

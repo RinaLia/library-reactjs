@@ -1,53 +1,55 @@
-import React, { Component } from 'react'
-import TopNavbar from './Navbar'
-import Sidebar from './Sidebar'
-import { Container, Row, Table, Card, Pagination } from 'react-bootstrap';
-import { Modal, ModalHeader, ModalBody, Input, ModalFooter, Button } from 'reactstrap'
-import axios from 'axios'
-import qs from 'querystring'
+import React, { Component } from "react";
+import TopNavbar from "../Navbar";
+import {
+  Container,
+  Row,
+  Table,
+  Card,
+  CardHeader,
+  CardBody,
+  Button,
+} from "reactstrap";
+import qs from "querystring";
+import Loading from "../../components/Loadings";
+import swal from "sweetalert2";
 
-import SweetAlert from 'react-bootstrap-sweetalert'
+import SweetAlert from "react-bootstrap-sweetalert";
+import { connect } from "react-redux";
+import { getUser, deleteUser } from "../../redux/action/user";
 
 class Users extends Component {
-
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       data: [],
       pageInfo: [],
       isLoading: false,
       // addModalShow: false,
       alert: null,
-    }
+      dataUser: [],
+    };
   }
 
   handlerChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value })
-  }
+    this.setState({ [e.target.name]: e.target.value });
+  };
 
-  fetchData = async (params) => {
-    this.setState({ isLoading: true })
-    const { REACT_APP_URL } = process.env
-    const param = `${qs.stringify(params)}`
-    const url = `${REACT_APP_URL}books/auth/users?${param}`
-    const results = await axios.get(url)
-    const { data } = results.data
-
-    const pageInfo = results.data.pageInfo
-    this.setState({ data, pageInfo, isLoading: false })
-    if (params) {
-      this.props.history.push(`?${param}`)
-    }
-  }
+  fetchData = async () => {
+    this.setState({ isLoading: true });
+    this.props.getUser().then((response) => {
+      this.setState({ isLoading: false, dataUser: response.value.data.data });
+    });
+  };
 
   deleteUsers = async (id) => {
-    const { REACT_APP_URL } = process.env
-    const url = `${REACT_APP_URL}books/auth/users/${id}`
-    await axios.delete(url)
-    console.log(this.props)
-
-    this.fetchData()
-  }
+    this.props.deleteUser(id);
+    swal.fire({
+      icon: "success",
+      title: "Success",
+      text: "Poof! delete success",
+    });
+    this.fetchData();
+  };
 
   showModal = () => {
     this.setState({ show: true });
@@ -74,63 +76,65 @@ class Users extends Component {
     );
 
     this.setState({
-      alert: getAlert()
+      alert: getAlert(),
     });
-  }
+  };
 
   hideAlert() {
     this.setState({
-      alert: null
+      alert: null,
     });
   }
 
   async componentDidMount() {
-
-    const param = qs.parse(this.props.location.search.slice(1))
-    await this.fetchData(param)
+    const param = qs.parse(this.props.location.search.slice(1));
+    await this.fetchData(param);
   }
 
   render() {
-    const params = qs.parse(this.props.location.search.slice(1))
-    params.page = params.page || 1
-    let addModalClose = () => this.setState({ addModalShow: false })
-    let editModalClose = () => this.setState({editModalShow:false})
-    const {userid, username, useremail, userpassword} = this.state
+    const { dataUser } = this.state;
+    const params = qs.parse(this.props.location.search.slice(1));
+    params.page = params.page || 1;
     return (
       <>
         <Row className="no-gutters w-100 h-100">
           <div className="d-flex flex-row w-100">
-            <Sidebar />
+            {/* <Sidebar /> */}
             <div className="w-100 d-flex flex-column">
               <div className="top-navbar sticky-top">
                 <TopNavbar />
               </div>
               <Container fluid className="mt-4">
                 <Card>
-                  <Card.Header>Users</Card.Header>
-                  <Card.Body>
-
-                    <Table  bordered >
+                  <CardHeader>Users</CardHeader>
+                  <CardBody>
+                    <Table striped bordered hover>
                       <thead align="center">
                         <tr>
                           <th>No</th>
                           <th>Username</th>
                           <th>Email</th>
                           <th>Password</th>
-                          {/* <th>Action</th> */}
+                          <th>Action</th>
                         </tr>
                       </thead>
-                      {this.state.data.length !== 0 && (
+                      {dataUser.length !== 0 && (
                         <tbody align="center">
-                          {this.state.data.map((users, index) => (
+                          {dataUser.map((users, index) => (
                             <tr key={users.id.toString()}>
                               <td>{index + 1}</td>
                               <td>{users.username}</td>
                               <td>{users.email}</td>
                               <td>{users.password}</td>
                               <td align="center">
-
-                                {/* <Button onClick={() => { this.onDelete(users.id) }} className="btn btn-danger ml-2 mt-2">Delete</Button> */}
+                                <Button
+                                  onClick={() => {
+                                    this.onDelete(users.id);
+                                  }}
+                                  className="btn btn-danger ml-2 mt-2"
+                                >
+                                  Delete
+                                </Button>
                               </td>
                               {this.state.alert}
                             </tr>
@@ -141,14 +145,22 @@ class Users extends Component {
                         <h1>Data Not Available</h1>
                       )} */}
                     </Table>
-                  </Card.Body>
+                  </CardBody>
                 </Card>
               </Container>
             </div>
           </div>
         </Row>
+        {this.state.isLoading && <Loading />}
       </>
-    )
-  };
+    );
+  }
 }
-export default Users
+
+const mapStateToProps = (state) => ({
+  user: state.user,
+});
+
+const mapDispatchToProps = { getUser, deleteUser };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Users);

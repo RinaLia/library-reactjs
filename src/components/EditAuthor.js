@@ -1,17 +1,19 @@
 import React, { Component } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
+
 import { connect } from "react-redux";
-import { getAuthor, postAuthor } from "../redux/action/author";
+import { patchAuthor, getAuthor } from "../redux/action/author";
 import swal from "sweetalert2";
 
-class AddAuthor extends Component {
+class EditAuthor extends Component {
   constructor(props) {
     super(props);
     this.state = {
       name: "",
       description: "",
+      alert: "",
     };
-    this.handlePost = this.handlePost.bind(this);
+    this.handlePatch = this.handlePatch.bind(this);
   }
 
   handleChange = (event) => {
@@ -25,24 +27,27 @@ class AddAuthor extends Component {
     });
   };
 
-  handlePost = async (event) => {
+  handlePatch = async (event) => {
     event.preventDefault();
     this.setState({ isLoading: true });
+
     const authorData = {
       name: this.state.name,
       description: this.state.description,
     };
-    this.props.postAuthor(authorData).then((response) => {
-      swal.fire({
-        icon: "success",
-        title: "Success",
-        text: "Add author success",
-      });
-      this.props.refreshdata();
-      this.props.onHide();
-    });
-  };
 
+    this.props
+      .patchAuthor(`${this.props.authorid}`, authorData)
+      .then((response) => {
+        swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "Edit author success",
+        });
+        this.props.refreshdata();
+        this.props.onHide();
+      });
+  };
   render() {
     return (
       <Modal
@@ -53,12 +58,24 @@ class AddAuthor extends Component {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Add Author
+            Edit Author
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="contaniner">
-            <Form onSubmit={this.handlePost}>
+            <Form onSubmit={this.handlePatch}>
+              <Form.Group controlId="formBasicEmail">
+                <Form.Label>ID Author</Form.Label>
+                <Form.Control
+                  name="id"
+                  readOnly
+                  onChange={this.handleChange}
+                  type="text"
+                  placeholder="ID Author"
+                  defaultValue={this.props.authorid}
+                />
+                <Form.Text className="text-muted">Please text mode</Form.Text>
+              </Form.Group>
               <Form.Group controlId="formBasicEmail">
                 <Form.Label>Name Author</Form.Label>
                 <Form.Control
@@ -66,6 +83,7 @@ class AddAuthor extends Component {
                   onChange={this.handleChange}
                   type="text"
                   placeholder="Name Author"
+                  defaultValue={this.props.authorname}
                 />
                 <Form.Text className="text-muted">Please text mode</Form.Text>
               </Form.Group>
@@ -76,14 +94,15 @@ class AddAuthor extends Component {
                   onChange={this.handleChange}
                   type="text"
                   placeholder="Description"
+                  defaultValue={this.props.authordescription}
                 />
               </Form.Group>
               <Button
-                onSubmit={this.handlePost}
+                onClick={this.handlePatch}
                 variant="primary"
                 type="submit"
               >
-                Save
+                Update
               </Button>
             </Form>
           </div>
@@ -97,6 +116,7 @@ class AddAuthor extends Component {
     );
   }
 }
-const mapDispatchToPros = { getAuthor, postAuthor };
 
-export default connect(null, mapDispatchToPros)(AddAuthor);
+const mapDispatchToProps = { patchAuthor, getAuthor };
+
+export default connect(null, mapDispatchToProps)(EditAuthor);
