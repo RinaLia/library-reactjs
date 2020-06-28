@@ -272,7 +272,7 @@ class Home extends Component {
                         }
                       </div>
                     </Col>
-                    <Row className="w-100 mb-5 card-deck">
+                    <Row xs="1" md="3" lg="4" className="w-100 mb-5 card-deck">
                       {dataBook.map((lis_book, index) => (
                         <Link
                           key={lis_book.id.toString()}
