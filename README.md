@@ -19,10 +19,10 @@
 Library is a website for borrowing books, where only members in this library can borrow books, and if a guest wants to borrow, the guest must log in first.
 
 ## Features
-* list Book
-* list borrow
-* detail book
-* And others
+* List Book
+* List borrow
+* Detail book
+* and others
 
 ## Requirements
 * [`npm`](https://www.npmjs.com/get-npm)
