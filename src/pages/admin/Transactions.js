@@ -126,7 +126,7 @@ class Transactions extends Component {
                           <th>Author</th>
                           <th>OrderBy</th>
                           <th>Status</th>
-                          <th>Actions</th>
+                          {/* <th>Actions</th> */}
                         </tr>
                       </thead>
                       {dataTransactions.length !== 0 && (
@@ -137,7 +137,7 @@ class Transactions extends Component {
                               <td>{transactions.book_title}</td>
                               <td>{transactions.book_author}</td>
                               <td>{transactions.orderby}</td>
-                              <td>{transactions.book_status}</td>
+                              {/* <td>{transactions.book_status}</td> */}
                               <td align="center">
                                 <Button
                                   onClick={() => {

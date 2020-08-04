@@ -7,8 +7,8 @@ import LoginAdmin from "./pages/LoginAdmin";
 import LoginUser from "./pages/LoginUser";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
-import DetailsHome from "./pages/DetailsHome";
-import DetailsTry from "./pages/DetailsTry";
+import Home from "./pages/Home";
+import Details from "./pages/Details";
 // import LoginAdmin from './pages/LoginAdmin'
 import Sidebar from "./pages/Sidebar";
 import Navbar from "./pages/Navbar";
@@ -17,8 +17,8 @@ import Genres from "./pages/admin/Genre";
 import Users from "./pages/admin/Users";
 import Transactions from "./pages/admin/Transactions";
 import history from "./utils/history";
-import HomeUser from "./pages/HomeUser";
-import HomeFirst from "./pages/HomeFirst";
+import DashUser from "./pages/DashUser";
+import MainDash from "./pages/MainDash";
 import DetailsUser from "./pages/DetailsUser";
 import store from "./redux/store";
 import { Provider } from "react-redux";
@@ -56,11 +56,11 @@ class App extends Component {
               {/* <Navbar isLogin={this.state.isLogin} check={()=>this.checkLogin()} /> */}
               <Switch>
                 {/* <Route path='/login' exact component={Login} /> */}
-                <Route path="/" exact component={HomeFirst} />
+                <Route path="/" exact component={MainDash} />
                 <Route
                   path="/home"
                   exact
-                  render={(props) => <HomeUser {...props} />}
+                  render={(props) => <DashUser {...props} />}
                 />
                 <Route
                   path="/admin"
@@ -83,8 +83,8 @@ class App extends Component {
                 ></Route>
                 <Route path="/register" exact component={Register} />
                 {/* <Route path='/home' component={Home} /> */}
-                <Route path="/detailstry/:id" exact component={DetailsTry} />
-                <Route path="/detailshome/:id" exact component={DetailsHome} />
+                <Route path="/details/:id" exact component={Details} />
+                <Route path="/home/:id" exact component={Home} />
                 <Route path="/detailsuser/:id" exact component={DetailsUser} />
                 {/* <Route path='/adminlogin' exact component={LoginAdmin} /> */}
                 <Route path="/sidebar" exact component={Sidebar} />

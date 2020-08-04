@@ -278,7 +278,7 @@ class Home extends Component {
                           key={lis_book.id.toString()}
                           className="text-decoration-none"
                           to={{
-                            pathname: `/detailstry/${lis_book.id}`,
+                            pathname: `/details/${lis_book.id}`,
                             state: {
                               id: `${lis_book.id}`,
                               book_title: `${lis_book.book_title}`,

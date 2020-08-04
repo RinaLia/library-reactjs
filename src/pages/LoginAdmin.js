@@ -35,7 +35,7 @@ class Login extends Component {
       e.preventDefault();
       this.setState({ isLoading: true });
       const { email, password } = this.state;
-      if (email === "admin@admin" && password === "admin") {
+      if (email === "admin@library" && password === "admin") {
         setTimeout(() => {
           this.setState({ isLoading: false }, () => {
             localStorage.setItem("token", "admin");

@@ -169,7 +169,7 @@ class Home extends Component {
                         }
                       </div>
                     </h4>
-                    <Row className="w-100 mb-5 card-deck">
+                    <Row xs="1" md="3" lg="4" className="w-100 mb-5 card-deck">
                       {this.state.data.map((lis_book, index) => (
                         <Link
                           className="text-decoration-none"

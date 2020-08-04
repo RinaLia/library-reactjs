@@ -88,7 +88,7 @@ class Register extends Component {
                       <Input
                         name="username"
                         bsSize="sm"
-                        placeholder="banishh_"
+                        placeholder="your_username"
                         onChange={this.handleChange}
                       />
                     </Label>
